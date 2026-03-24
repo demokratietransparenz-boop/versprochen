@@ -1,7 +1,7 @@
 "use client";
 
 import { DeviationTag } from "./TrafficLight";
-import { useLeichteSprache } from "@/hooks/useLeichteSprache";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface VoteAnalysis {
   vote_title: string;
@@ -17,9 +17,11 @@ interface VoteAnalysis {
 }
 
 export function VoteAnalysisCard({ analysis }: { analysis: VoteAnalysis }) {
-  const { active: leichteSprache } = useLeichteSprache();
+  const { language, t } = useLanguage();
+
+  const useSimpleReasoning = language === "de-leicht";
   const reasoning =
-    leichteSprache && analysis.reasoning_simple
+    useSimpleReasoning && analysis.reasoning_simple
       ? analysis.reasoning_simple
       : analysis.reasoning;
 
@@ -37,7 +39,7 @@ export function VoteAnalysisCard({ analysis }: { analysis: VoteAnalysis }) {
           <DeviationTag alignment={effectiveAlignment} />
         </div>
         <div className="text-xs text-gray-500 mb-2">
-          Gestimmt:{" "}
+          {t("analysis.voted")}{" "}
           <strong
             className={
               analysis.actual_result === analysis.expected_vote
@@ -47,16 +49,16 @@ export function VoteAnalysisCard({ analysis }: { analysis: VoteAnalysis }) {
           >
             {analysis.actual_result.toUpperCase()}
           </strong>{" "}
-          · Wahlprogramm erwartet:{" "}
+          &middot; {t("analysis.expected")}{" "}
           <strong className="text-[#2e7d32]">
             {analysis.expected_vote.toUpperCase()}
           </strong>{" "}
-          · {analysis.vote_date}
+          &middot; {analysis.vote_date}
         </div>
         <div className="bg-gray-50 border border-gray-100 rounded p-2.5 text-xs text-gray-500">
-          <strong className="text-gray-700">KI-Analyse:</strong> {reasoning}
+          <strong className="text-gray-700">{t("analysis.aiLabel")}</strong> {reasoning}
           <div className="mt-1.5 text-[11px] text-gray-400">
-            Konfidenz: {Math.round(analysis.confidence * 100)}%
+            {t("analysis.confidence")} {Math.round(analysis.confidence * 100)}%
           </div>
           <div className="flex gap-3 mt-2 pt-2 border-t border-gray-100">
             {analysis.source_url && (

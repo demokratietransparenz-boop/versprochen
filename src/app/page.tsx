@@ -3,6 +3,7 @@ import { cleanSourceUrl } from "@/lib/constants";
 import { ParliamentTabs } from "@/components/ParliamentTabs";
 import { PartyScoreTable } from "@/components/PartyScoreTable";
 import { DeviationFeed } from "@/components/DeviationFeed";
+import { HeroSection } from "@/components/HeroSection";
 
 export const dynamic = "force-dynamic";
 
@@ -154,61 +155,14 @@ export default async function DashboardPage({
 
   return (
     <div>
-      {/* Hero / Einführung */}
-      <div className="bg-gradient-to-br from-[#0d1b3e] to-[#1a3a6b] text-white rounded-lg px-6 py-8 -mx-4 mb-6">
-        <h1 className="text-2xl font-bold mb-2">
-          Versprochen?
-        </h1>
-        <p className="text-[15px] text-blue-100 leading-relaxed max-w-2xl mb-4">
-          Halten Parteien, was sie im Wahlprogramm versprechen? Diese Seite
-          vergleicht automatisch das Abstimmungsverhalten im Bundestag mit den
-          Positionen aus den Wahlprogrammen der Parteien — transparent,
-          nachvollziehbar und für jeden zugänglich.
-        </p>
-
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-5 mb-5">
-          <div className="bg-white/10 rounded px-3 py-2.5 text-center">
-            <div className="text-xl font-bold">{totalVotes?.toLocaleString("de-DE") ?? 0}</div>
-            <div className="text-[11px] text-blue-200">Abstimmungen</div>
-          </div>
-          <div className="bg-white/10 rounded px-3 py-2.5 text-center">
-            <div className="text-xl font-bold">{totalMembers?.toLocaleString("de-DE") ?? 0}</div>
-            <div className="text-[11px] text-blue-200">Abgeordnete</div>
-          </div>
-          <div className="bg-white/10 rounded px-3 py-2.5 text-center">
-            <div className="text-xl font-bold">{totalVoteResults?.toLocaleString("de-DE") ?? 0}</div>
-            <div className="text-[11px] text-blue-200">Einzelstimmen</div>
-          </div>
-          <div className="bg-white/10 rounded px-3 py-2.5 text-center">
-            <div className="text-xl font-bold">{parliaments?.length ?? 0}</div>
-            <div className="text-[11px] text-blue-200">Wahlperioden</div>
-          </div>
-        </div>
-
-        <details className="text-[13px] text-blue-200">
-          <summary className="cursor-pointer hover:text-white font-medium">
-            So funktioniert es
-          </summary>
-          <div className="mt-3 space-y-2 text-blue-100 leading-relaxed">
-            <div className="flex gap-2">
-              <span className="bg-white/20 rounded-full w-5 h-5 flex items-center justify-center text-[11px] font-bold shrink-0">1</span>
-              <span><strong>Wahlprogramme analysieren:</strong> Wir extrahieren zentrale Positionen und Versprechen aus den offiziellen Wahlprogrammen der Parteien.</span>
-            </div>
-            <div className="flex gap-2">
-              <span className="bg-white/20 rounded-full w-5 h-5 flex items-center justify-center text-[11px] font-bold shrink-0">2</span>
-              <span><strong>Abstimmungen erfassen:</strong> Nach jeder Sitzungswoche werden alle namentlichen Abstimmungen aus dem Bundestag erfasst — inklusive wie jeder einzelne Abgeordnete gestimmt hat.</span>
-            </div>
-            <div className="flex gap-2">
-              <span className="bg-white/20 rounded-full w-5 h-5 flex items-center justify-center text-[11px] font-bold shrink-0">3</span>
-              <span><strong>KI-Abgleich:</strong> Eine KI vergleicht jede Abstimmung mit den passenden Wahlversprechen und bewertet, ob die Partei ihrem Programm treu geblieben ist.</span>
-            </div>
-            <div className="flex gap-2">
-              <span className="bg-white/20 rounded-full w-5 h-5 flex items-center justify-center text-[11px] font-bold shrink-0">4</span>
-              <span><strong>Transparenz:</strong> Jede Bewertung ist mit Quellenlinks belegt — zum Wahlprogramm und zur offiziellen Abstimmung. Sie entscheiden selbst.</span>
-            </div>
-          </div>
-        </details>
-      </div>
+      <HeroSection
+        stats={{
+          totalVotes: totalVotes ?? 0,
+          totalMembers: totalMembers ?? 0,
+          totalVoteResults: totalVoteResults ?? 0,
+          parliamentCount: parliaments?.length ?? 0,
+        }}
+      />
 
       <ParliamentTabs
         parliaments={parliaments ?? []}

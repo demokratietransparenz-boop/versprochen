@@ -2,16 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLanguage } from "@/context/LanguageContext";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Übersicht" },
-  { href: "/abstimmungen", label: "Abstimmungen" },
-  { href: "/faq", label: "FAQ & Methodik" },
-  { href: "/ueber", label: "Über das Projekt" },
+  { href: "/", labelKey: "nav.overview" },
+  { href: "/abstimmungen", labelKey: "nav.votes" },
+  { href: "/faq", labelKey: "nav.faq" },
+  { href: "/ueber", labelKey: "nav.about" },
 ];
 
 export function Navigation() {
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   return (
     <nav className="flex items-center justify-between px-6 py-4 border-b-[3px] border-[#1a56b8]">
@@ -29,7 +31,7 @@ export function Navigation() {
                 : "hover:text-[#1a56b8]"
             }
           >
-            {item.label}
+            {t(item.labelKey)}
           </Link>
         ))}
       </div>

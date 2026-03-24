@@ -1,24 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
-const COOKIE_NAME = "leichte-sprache";
-
+/**
+ * Backwards-compatible hook. Delegates to the new LanguageContext.
+ */
 export function useLeichteSprache() {
-  const [active, setActive] = useState(false);
+  const { language, setLanguage, isLeichteSprache } = useLanguage();
 
-  useEffect(() => {
-    const value = document.cookie
-      .split("; ")
-      .find((c) => c.startsWith(`${COOKIE_NAME}=`));
-    setActive(value?.split("=")[1] === "1");
-  }, []);
-
-  function toggle() {
-    const newValue = !active;
-    document.cookie = `${COOKIE_NAME}=${newValue ? "1" : "0"}; path=/; max-age=31536000`;
-    setActive(newValue);
-  }
-
-  return { active, toggle };
+  return {
+    active: isLeichteSprache,
+    toggle: () => {
+      setLanguage(isLeichteSprache ? "de" : "de-leicht");
+    },
+  };
 }

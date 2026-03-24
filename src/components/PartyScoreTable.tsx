@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { ScoreBar, ScoreText } from "./TrafficLight";
 import { PARTY_COLORS } from "@/lib/constants";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface PartyScore {
   party_id: string;
@@ -17,22 +20,24 @@ export function PartyScoreTable({
   parties: PartyScore[];
   voteCount: number;
 }) {
+  const { t } = useLanguage();
+
   return (
     <div>
       <div className="flex items-baseline justify-between mb-3 pb-2 border-b border-gray-200">
         <h3 className="text-base font-semibold text-gray-900">
-          Partei-Scores
+          {t("scores.title")}
         </h3>
         <span className="text-[12px] text-gray-400">
-          Basierend auf {voteCount} analysierten Abstimmungen
+          {t("scores.basedOn")} {voteCount} {t("scores.analyzedVotes")}
         </span>
       </div>
       <table className="w-full text-[13px]">
         <thead>
           <tr className="border-b-2 border-gray-200 text-left">
-            <th className="py-2 text-gray-500 font-medium">Partei</th>
-            <th className="py-2 text-gray-500 font-medium">Gesamtscore</th>
-            <th className="py-2 text-gray-500 font-medium text-right">Zugeordnete Analysen</th>
+            <th className="py-2 text-gray-500 font-medium">{t("scores.party")}</th>
+            <th className="py-2 text-gray-500 font-medium">{t("scores.overallScore")}</th>
+            <th className="py-2 text-gray-500 font-medium text-right">{t("scores.analyses")}</th>
           </tr>
         </thead>
         <tbody>

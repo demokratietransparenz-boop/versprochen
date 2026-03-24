@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface Parliament {
   id: string;
@@ -16,6 +17,8 @@ export function ParliamentTabs({
   parliaments: Parliament[];
   activeId: string; // "all" or a specific parliament ID
 }) {
+  const { t } = useLanguage();
+
   // Group by name (e.g. "Bundestag" with multiple Wahlperioden)
   const groups = new Map<string, Parliament[]>();
   for (const p of parliaments) {
@@ -35,7 +38,7 @@ export function ParliamentTabs({
               : "bg-gray-100 text-gray-600 hover:bg-gray-200"
           }`}
         >
-          Alle Wahlperioden
+          {t("tabs.allPeriods")}
         </Link>
         {parliaments
           .sort((a, b) => b.legislature.localeCompare(a.legislature))
