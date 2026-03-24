@@ -12,9 +12,10 @@ export default async function AbgeordnetePage({
   searchParams,
 }: {
   params: { id: string };
-  searchParams: { topic?: string };
+  searchParams: { topic?: string; status?: string };
 }) {
   const activeTopic = searchParams.topic || null;
+  const activeStatus = searchParams.status || null; // "konsistent" | "abweichung" | "abwesend"
   const { data: member } = await supabase
     .from("members")
     .select("*, parties(*), parliaments(*)")
@@ -178,10 +179,22 @@ export default async function AbgeordnetePage({
               Bei {totalAbsent} von {memberAnalyses.length} relevanten Abstimmungen war dieser Abgeordnete abwesend.
             </div>
           )}
-          <div className="flex gap-4 mt-2 text-[11px] text-gray-400">
-            <span><span className="inline-block w-2.5 h-2.5 rounded-sm bg-[#2e7d32] mr-1"></span>Konsistent</span>
-            <span><span className="inline-block w-2.5 h-2.5 rounded-sm bg-[#c62828] mr-1"></span>Abweichung</span>
-            <span><span className="inline-block w-2.5 h-2.5 rounded-sm bg-gray-400 mr-1"></span>Abwesend</span>
+          <div className="flex gap-4 mt-2 text-[11px]">
+            {(["konsistent", "abweichung", "abwesend"] as const).map((status) => {
+              const colors = { konsistent: "bg-[#2e7d32]", abweichung: "bg-[#c62828]", abwesend: "bg-gray-400" };
+              const labels = { konsistent: "Konsistent", abweichung: "Abweichung", abwesend: "Abwesend" };
+              const isActive = activeStatus === status;
+              const topicParam = activeTopic ? `&topic=${encodeURIComponent(activeTopic)}` : "";
+              const href = isActive
+                ? `/abgeordnete/${params.id}${activeTopic ? `?topic=${encodeURIComponent(activeTopic)}` : ""}`
+                : `/abgeordnete/${params.id}?status=${status}${topicParam}`;
+              return (
+                <a key={status} href={href} className={`px-2 py-0.5 rounded cursor-pointer hover:bg-gray-100 ${isActive ? "bg-blue-50 ring-1 ring-[#1a56b8] text-gray-700" : "text-gray-400"}`}>
+                  <span className={`inline-block w-2.5 h-2.5 rounded-sm ${colors[status]} mr-1`}></span>
+                  {labels[status]}
+                </a>
+              );
+            })}
           </div>
         </div>
       )}
@@ -189,19 +202,30 @@ export default async function AbgeordnetePage({
       <div className="flex items-center gap-3 mb-3">
         <h3 className="text-[15px] font-semibold text-gray-900">
           Abstimmungsverhalten
-          {activeTopic ? ` — ${activeTopic}` : ` (${memberAnalyses.length} analysierte Abstimmungen)`}
+          {activeTopic ? ` — ${activeTopic}` : ""}
+          {activeStatus ? ` — ${activeStatus === "konsistent" ? "Konsistent" : activeStatus === "abweichung" ? "Abweichungen" : "Abwesend"}` : !activeTopic ? ` (${memberAnalyses.length} analysierte Abstimmungen)` : ""}
         </h3>
-        {activeTopic && (
+        {(activeTopic || activeStatus) && (
           <a href={`/abgeordnete/${params.id}`} className="text-[12px] text-[#1a56b8] hover:underline">
-            Filter zurücksetzen
+            Alle anzeigen
           </a>
         )}
       </div>
 
-      {(activeTopic
-        ? memberAnalyses.filter((a: any) => (a as any).votes.topic_category === activeTopic)
-        : memberAnalyses
-      ).map((a: any, i: number) => (
+      {memberAnalyses
+        .filter((a: any) => {
+          if (activeTopic && (a as any).votes.topic_category !== activeTopic) return false;
+          if (activeStatus) {
+            const result = voteResultMap.get(a.vote_id) ?? "abwesend";
+            if (activeStatus === "abwesend") return result === "abwesend";
+            const votesMatch = result.toLowerCase() === a.expected_vote?.toLowerCase();
+            const eff = votesMatch ? Math.max(a.alignment, 0.7) : a.alignment;
+            if (activeStatus === "konsistent") return result !== "abwesend" && eff >= 0.5;
+            if (activeStatus === "abweichung") return result !== "abwesend" && eff < 0.5;
+          }
+          return true;
+        })
+        .map((a: any, i: number) => (
         <VoteAnalysisCard
           key={i}
           analysis={{
