@@ -19,19 +19,27 @@ const FAQ_ITEMS = [
     ],
   },
   {
-    category: "Daten & Methodik",
+    category: "Methodik",
     questions: [
       {
-        q: "Woher kommen die Abstimmungsdaten?",
-        a: "Die namentlichen Abstimmungen werden über die öffentliche API von abgeordnetenwatch.de bezogen. Diese Daten sind frei zugänglich und werden nach jeder Sitzungswoche aktualisiert. Jede Abstimmung ist mit einem Link zur Originalquelle versehen.",
+        q: "Wie werden die Abstimmungsdaten erfasst?",
+        a: "Nach jeder Sitzungswoche werden automatisch alle neuen namentlichen Abstimmungen über die öffentliche API von abgeordnetenwatch.de abgerufen. Für jede Abstimmung wird erfasst: Titel, Beschreibung, Datum und das individuelle Stimmverhalten jedes Abgeordneten (Ja, Nein, Enthaltung, Abwesend). Jede Abstimmung ist mit einem Link zur Originalquelle versehen.",
       },
       {
         q: "Woher kommen die Wahlversprechen?",
         a: "Die Positionen der Parteien werden aus den offiziellen Wahlprogrammen und den strukturierten Daten des Wahl-O-Mat extrahiert. Eine KI identifiziert konkrete, überprüfbare Versprechen und ordnet sie Themenbereichen zu.",
       },
       {
+        q: "Wie werden Abstimmungen Themenbereichen zugeordnet?",
+        a: "Jede Abstimmung wird automatisch einer Themenkategorie zugeordnet: Umwelt, Soziales, Wirtschaft, Migration, Bildung, Gesundheit, Sicherheit, Digitales, Außenpolitik, Finanzen oder Sonstiges. Dies geschieht durch eine KI-Analyse des Abstimmungstitels und der Beschreibung.",
+      },
+      {
         q: "Wie funktioniert der KI-Abgleich?",
-        a: "Für jede namentliche Abstimmung prüft eine KI (Claude von Anthropic), ob ein passendes Wahlversprechen existiert. Wenn ja, bewertet sie: Wie hätte die Partei laut Wahlprogramm abstimmen sollen? Stimmt das mit dem tatsächlichen Verhalten überein? Jede Bewertung enthält eine Begründung und einen Konfidenzwert. Nur Bewertungen mit hoher Konfidenz (≥ 80%) fließen in die Scores ein.",
+        a: "Für jede namentliche Abstimmung prüft eine KI (Claude von Anthropic), ob ein passendes Wahlversprechen existiert. Wenn ja, bewertet sie: Wie hätte die Partei laut Wahlprogramm abstimmen sollen? Stimmt das mit dem tatsächlichen Verhalten überein? Wird keine passende Position gefunden, wird die Abstimmung als „nicht zuordenbar" markiert und fließt nicht in den Score ein.",
+      },
+      {
+        q: "Wie wird die Übereinstimmung bewertet?",
+        a: "Wurde eine Zuordnung gefunden, bewertet die KI die Übereinstimmung zwischen dem tatsächlichen Abstimmungsverhalten und der Position im Wahlprogramm. Das Ergebnis ist ein Wert zwischen 0% (kompletter Widerspruch) und 100% (volle Übereinstimmung). Das Fraktionsergebnis wird als Mehrheitsvotum berechnet: Stimmt die Mehrheit der Fraktionsmitglieder mit Ja, gilt das Fraktionsergebnis als „Ja" (und umgekehrt). Abwesende werden nicht mitgezählt.",
       },
       {
         q: "Was bedeutet der Gesamtscore?",
@@ -40,6 +48,14 @@ const FAQ_ITEMS = [
       {
         q: "Was bedeuten die Farben Grün, Gelb und Rot?",
         a: "Grün (≥ 70%): Hohe Übereinstimmung mit dem Wahlprogramm. Gelb (40–69%): Gemischte Bilanz mit sowohl programmkonformem als auch abweichendem Verhalten. Rot (< 40%): Häufige Abweichungen vom Wahlprogramm.",
+      },
+      {
+        q: "Was ist die Konfidenz-Schwelle?",
+        a: "Jede KI-Analyse wird mit einem Konfidenzwert versehen (0–100%). Nur Analysen mit einer Konfidenz von mindestens 80% werden in die Score-Berechnung einbezogen und öffentlich angezeigt. Analysen unter diesem Schwellenwert werden verworfen, um die Qualität der Bewertungen sicherzustellen.",
+      },
+      {
+        q: "Welches KI-Modell wird verwendet?",
+        a: "Für die Analyse wird Claude Sonnet von Anthropic verwendet. Alle Parteien werden mit identischen Prompt-Templates bewertet, um Neutralität zu gewährleisten. Die Prompts sind im Quellcode auf GitHub einsehbar.",
       },
     ],
   },
@@ -99,7 +115,7 @@ const FAQ_ITEMS = [
     ],
   },
   {
-    category: "Transparenz",
+    category: "Transparenz & Open Source",
     questions: [
       {
         q: "Kann ich die Daten selbst überprüfen?",
@@ -121,7 +137,7 @@ export default function FAQPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-2">
-        Häufig gestellte Fragen
+        FAQ & Methodik
       </h1>
       <p className="text-[14px] text-gray-500 mb-8 max-w-2xl">
         Hier finden Sie Antworten auf die wichtigsten Fragen zur Methodik,
