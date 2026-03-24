@@ -115,18 +115,28 @@ export default async function AbstimmungenPage({
     .select("id, name")
     .order("name");
 
-  // Get members (limit to relevant ones for performance)
-  let memberQuery = supabase
-    .from("members")
-    .select("id, name, parties!inner(name)")
-    .order("name")
-    .limit(2000);
+  // Get all members (paginated to bypass Supabase 1000-row limit)
+  let allMembers: any[] = [];
+  let memberOffset = 0;
+  const memberBatchSize = 1000;
+  while (true) {
+    let memberQuery = supabase
+      .from("members")
+      .select("id, name, parties!inner(name)")
+      .order("name")
+      .range(memberOffset, memberOffset + memberBatchSize - 1);
 
-  if (searchParams.party) {
-    memberQuery = memberQuery.eq("party_id", searchParams.party);
+    if (searchParams.party) {
+      memberQuery = memberQuery.eq("party_id", searchParams.party);
+    }
+
+    const { data: batch } = await memberQuery;
+    if (!batch?.length) break;
+    allMembers.push(...batch);
+    if (batch.length < memberBatchSize) break;
+    memberOffset += memberBatchSize;
   }
-
-  const { data: filterMembers } = await memberQuery;
+  const filterMembers = allMembers;
 
   // Deduplicate members by name (same person across Wahlperioden)
   const uniqueMembers = new Map<string, { value: string; label: string }>();
