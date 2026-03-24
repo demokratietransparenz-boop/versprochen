@@ -35,11 +35,11 @@ const FAQ_ITEMS = [
       },
       {
         q: "Wie funktioniert der KI-Abgleich?",
-        a: "Für jede namentliche Abstimmung prüft eine KI (Claude von Anthropic), ob ein passendes Wahlversprechen existiert. Wenn ja, bewertet sie: Wie hätte die Partei laut Wahlprogramm abstimmen sollen? Stimmt das mit dem tatsächlichen Verhalten überein? Wird keine passende Position gefunden, wird die Abstimmung als „nicht zuordenbar" markiert und fließt nicht in den Score ein.",
+        a: "Für jede namentliche Abstimmung prüft eine KI (Claude von Anthropic), ob ein passendes Wahlversprechen existiert. Wenn ja, bewertet sie: Wie hätte die Partei laut Wahlprogramm abstimmen sollen? Stimmt das mit dem tatsächlichen Verhalten überein? Wird keine passende Position gefunden, wird die Abstimmung als 'nicht zuordenbar' markiert und fließt nicht in den Score ein.",
       },
       {
         q: "Wie wird die Übereinstimmung bewertet?",
-        a: "Wurde eine Zuordnung gefunden, bewertet die KI die Übereinstimmung zwischen dem tatsächlichen Abstimmungsverhalten und der Position im Wahlprogramm. Das Ergebnis ist ein Wert zwischen 0% (kompletter Widerspruch) und 100% (volle Übereinstimmung). Das Fraktionsergebnis wird als Mehrheitsvotum berechnet: Stimmt die Mehrheit der Fraktionsmitglieder mit Ja, gilt das Fraktionsergebnis als „Ja" (und umgekehrt). Abwesende werden nicht mitgezählt.",
+        a: "Wurde eine Zuordnung gefunden, bewertet die KI die Übereinstimmung zwischen dem tatsächlichen Abstimmungsverhalten und der Position im Wahlprogramm. Das Ergebnis ist ein Wert zwischen 0% (kompletter Widerspruch) und 100% (volle Übereinstimmung). Das Fraktionsergebnis wird als Mehrheitsvotum berechnet: Stimmt die Mehrheit der Fraktionsmitglieder mit Ja, gilt das Fraktionsergebnis als 'Ja' (und umgekehrt). Abwesende werden nicht mitgezählt.",
       },
       {
         q: "Was bedeutet der Gesamtscore?",
