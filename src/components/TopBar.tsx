@@ -8,8 +8,7 @@ export function TopBar() {
     setLanguage,
     t,
     fontSize,
-    increaseFontSize,
-    decreaseFontSize,
+    setFontSize,
   } = useLanguage();
 
   return (
