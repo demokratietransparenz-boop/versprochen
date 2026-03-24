@@ -55,28 +55,32 @@ export function TopBar() {
             : "Leichte Sprache"}
         </button>
 
-        {/* English toggle */}
-        <button
-          onClick={() =>
-            setLanguage(language === "en" ? "de" : "en")
-          }
-          className={`${
-            language === "en"
-              ? "text-blue-700 font-semibold"
-              : "text-blue-600"
-          } hover:underline`}
-        >
-          {language === "en" ? "\u2713 EN" : "EN"}
-        </button>
-
         <span className="text-gray-300">|</span>
 
-        <a href="/ueber" className="hover:text-[#1a56b8]">
-          {t("nav.about")}
-        </a>
-        <a href="/methodik" className="hover:text-[#1a56b8]">
-          {t("nav.methodology")}
-        </a>
+        {/* Language selector DE | EN */}
+        <span className="flex items-center gap-1">
+          <button
+            onClick={() => setLanguage("de")}
+            className={`${
+              language === "de" || language === "de-leicht"
+                ? "text-blue-700 font-semibold"
+                : "text-blue-600"
+            } hover:underline`}
+          >
+            DE
+          </button>
+          <span className="text-gray-300">|</span>
+          <button
+            onClick={() => setLanguage("en")}
+            className={`${
+              language === "en"
+                ? "text-blue-700 font-semibold"
+                : "text-blue-600"
+            } hover:underline`}
+          >
+            EN
+          </button>
+        </span>
       </div>
     </div>
   );
