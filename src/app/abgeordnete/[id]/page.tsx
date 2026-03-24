@@ -9,9 +9,12 @@ export const dynamic = "force-dynamic";
 
 export default async function AbgeordnetePage({
   params,
+  searchParams,
 }: {
   params: { id: string };
+  searchParams: { topic?: string };
 }) {
+  const activeTopic = searchParams.topic || null;
   const { data: member } = await supabase
     .from("members")
     .select("*, parties(*), parliaments(*)")
@@ -135,7 +138,7 @@ export default async function AbgeordnetePage({
               const deviatingPct = total > 0 ? Math.round((stats.deviating / total) * 100) : 0;
               const absentPct = 100 - consistentPct - deviatingPct;
               return (
-                <div key={topic} className="flex items-center gap-3 text-[13px]">
+                <a key={topic} href={`/abgeordnete/${params.id}${activeTopic === topic ? "" : `?topic=${encodeURIComponent(topic)}`}`} className={`flex items-center gap-3 text-[13px] rounded px-1 -mx-1 py-0.5 hover:bg-gray-50 cursor-pointer ${activeTopic === topic ? "bg-blue-50 ring-1 ring-[#1a56b8]" : ""}`}>
                   <div className="w-32 text-gray-700 shrink-0">{topic}</div>
                   <div className="flex-1 flex h-5 rounded overflow-hidden bg-gray-100">
                     {consistentPct > 0 && (
@@ -166,7 +169,7 @@ export default async function AbgeordnetePage({
                   <div className="w-24 text-right text-gray-400 text-[11px]">
                     {stats.consistent} / {total}
                   </div>
-                </div>
+                </a>
               );
             })}
           </div>
@@ -183,11 +186,22 @@ export default async function AbgeordnetePage({
         </div>
       )}
 
-      <h3 className="text-[15px] font-semibold text-gray-900 mb-3">
-        Abstimmungsverhalten ({memberAnalyses.length} analysierte Abstimmungen)
-      </h3>
+      <div className="flex items-center gap-3 mb-3">
+        <h3 className="text-[15px] font-semibold text-gray-900">
+          Abstimmungsverhalten
+          {activeTopic ? ` — ${activeTopic}` : ` (${memberAnalyses.length} analysierte Abstimmungen)`}
+        </h3>
+        {activeTopic && (
+          <a href={`/abgeordnete/${params.id}`} className="text-[12px] text-[#1a56b8] hover:underline">
+            Filter zurücksetzen
+          </a>
+        )}
+      </div>
 
-      {memberAnalyses.map((a: any, i: number) => (
+      {(activeTopic
+        ? memberAnalyses.filter((a: any) => (a as any).votes.topic_category === activeTopic)
+        : memberAnalyses
+      ).map((a: any, i: number) => (
         <VoteAnalysisCard
           key={i}
           analysis={{
