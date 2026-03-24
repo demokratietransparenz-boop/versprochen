@@ -23,6 +23,10 @@ export function VoteAnalysisCard({ analysis }: { analysis: VoteAnalysis }) {
       ? analysis.reasoning_simple
       : analysis.reasoning;
 
+  // If actual vote matches expected vote, treat as consistent regardless of KI alignment score
+  const votesMatch = analysis.actual_result.toLowerCase() === analysis.expected_vote.toLowerCase();
+  const effectiveAlignment = votesMatch ? Math.max(analysis.alignment, 0.7) : analysis.alignment;
+
   return (
     <div className="border border-gray-200 rounded mb-3 overflow-hidden">
       <div className="px-4 py-3.5">
@@ -30,7 +34,7 @@ export function VoteAnalysisCard({ analysis }: { analysis: VoteAnalysis }) {
           <span className="text-sm font-semibold text-gray-900">
             {analysis.vote_title}
           </span>
-          <DeviationTag alignment={analysis.alignment} />
+          <DeviationTag alignment={effectiveAlignment} />
         </div>
         <div className="text-xs text-gray-500 mb-2">
           Gestimmt:{" "}

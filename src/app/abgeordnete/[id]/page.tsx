@@ -56,13 +56,16 @@ export default async function AbgeordnetePage({
   // Filter analyses to only those where the member participated
   const memberAnalyses = partyAnalyses?.filter((a: any) => voteResultMap.has(a.vote_id)) ?? [];
 
-  // Compute topic breakdown
+  // Compute topic breakdown — if actual vote matches expected, count as consistent
   const topicStats: Record<string, { consistent: number; deviating: number }> = {};
   for (const a of memberAnalyses) {
     const topic = (a as any).votes.topic_category;
     if (!topic) continue;
     if (!topicStats[topic]) topicStats[topic] = { consistent: 0, deviating: 0 };
-    if (a.alignment >= 0.5) {
+    const actualResult = voteResultMap.get(a.vote_id) ?? "";
+    const votesMatch = actualResult.toLowerCase() === a.expected_vote?.toLowerCase();
+    const effectiveAlignment = votesMatch ? Math.max(a.alignment, 0.7) : a.alignment;
+    if (effectiveAlignment >= 0.5) {
       topicStats[topic].consistent++;
     } else {
       topicStats[topic].deviating++;
