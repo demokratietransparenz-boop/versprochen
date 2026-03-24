@@ -56,32 +56,41 @@ export default async function ParteiPage({
     .eq("party_id", party.id)
     .eq("parliament_id", parliament.id);
 
-  const { data: memberScores } = await supabase
-    .from("scores")
-    .select("member_id, score, members!inner(name, constituency)")
-    .eq("scope_type", "member")
-    .eq("parliament_id", parliament.id)
-    .eq("period", overallScore?.period ?? "")
-    .order("score", { ascending: true })
-    .limit(10);
-
-  const { data: partyMemberIds } = await supabase
+  // Get members of THIS party with their scores, sorted by lowest score
+  const { data: partyMembers } = await supabase
     .from("members")
-    .select("id")
+    .select("id, name, constituency")
     .eq("party_id", party.id)
     .eq("parliament_id", parliament.id);
 
-  const partyMemberIdSet = new Set(partyMemberIds?.map((m) => m.id) ?? []);
-  const filteredMembers =
-    memberScores
-      ?.filter((s) => partyMemberIdSet.has(s.member_id))
-      .map((s: any) => ({
+  const memberIds = partyMembers?.map((m) => m.id) ?? [];
+  const { data: memberScores } = memberIds.length > 0
+    ? await supabase
+        .from("scores")
+        .select("member_id, score")
+        .eq("scope_type", "member")
+        .eq("parliament_id", parliament.id)
+        .eq("period", overallScore?.period ?? "")
+        .in("member_id", memberIds)
+        .order("score", { ascending: true })
+        .limit(20)
+    : { data: [] };
+
+  const memberScoreMap = new Map(memberScores?.map((s) => [s.member_id, s.score]) ?? []);
+  const memberMap = new Map(partyMembers?.map((m) => [m.id, m]) ?? []);
+
+  const filteredMembers = (memberScores ?? [])
+    .filter((s) => s.score < 100)
+    .map((s) => {
+      const member = memberMap.get(s.member_id);
+      return {
         id: s.member_id,
-        name: s.members.name,
-        constituency: s.members.constituency,
-        deviations: Math.round(((100 - s.score) / 100) * 10),
-      }))
-      .filter((m) => m.deviations > 0) ?? [];
+        name: member?.name ?? "Unbekannt",
+        constituency: member?.constituency ?? null,
+        deviations: Math.round(((100 - s.score) / 100) * (Object.keys(memberScoreMap).length || 10)),
+      };
+    })
+    .filter((m) => m.deviations > 0);
 
   return (
     <div>
