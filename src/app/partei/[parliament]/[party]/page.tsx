@@ -101,9 +101,9 @@ export default async function ParteiPage({
           {party.name}
         </div>
         <div className="flex-1">
-          <h1 className="text-xl font-bold text-gray-900">{party.full_name}</h1>
+          <h1 className="text-xl font-bold text-gray-900">{party.name}</h1>
           <p className="text-[13px] text-gray-400">
-            {parliament.name} · {parliament.legislature} · {memberCount ?? 0} Abgeordnete
+            {party.full_name} · {parliament.name} · {parliament.legislature} · {memberCount ?? 0} Abgeordnete
           </p>
         </div>
         <div className="text-right">
