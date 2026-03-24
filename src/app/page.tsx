@@ -3,7 +3,7 @@ import { ParliamentTabs } from "@/components/ParliamentTabs";
 import { PartyScoreTable } from "@/components/PartyScoreTable";
 import { DeviationFeed } from "@/components/DeviationFeed";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 export default async function DashboardPage({
   searchParams,
