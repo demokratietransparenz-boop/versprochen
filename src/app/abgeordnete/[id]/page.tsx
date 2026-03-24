@@ -56,15 +56,19 @@ export default async function AbgeordnetePage({
   // Filter analyses to only those where the member participated
   const memberAnalyses = partyAnalyses?.filter((a: any) => voteResultMap.has(a.vote_id)) ?? [];
 
-  // Compute topic breakdown — if actual vote matches expected, count as consistent
-  // Skip "abwesend" votes (same logic as party page)
-  const topicStats: Record<string, { consistent: number; deviating: number }> = {};
+  // Compute topic breakdown with three categories: consistent, deviating, absent
+  const topicStats: Record<string, { consistent: number; deviating: number; absent: number }> = {};
+  let totalAbsent = 0;
   for (const a of memberAnalyses) {
     const topic = (a as any).votes.topic_category;
     if (!topic) continue;
+    if (!topicStats[topic]) topicStats[topic] = { consistent: 0, deviating: 0, absent: 0 };
     const actualResult = voteResultMap.get(a.vote_id) ?? "";
-    if (actualResult === "abwesend") continue;
-    if (!topicStats[topic]) topicStats[topic] = { consistent: 0, deviating: 0 };
+    if (actualResult === "abwesend") {
+      topicStats[topic].absent++;
+      totalAbsent++;
+      continue;
+    }
     const votesMatch = actualResult.toLowerCase() === a.expected_vote?.toLowerCase();
     const effectiveAlignment = votesMatch ? Math.max(a.alignment, 0.7) : a.alignment;
     if (effectiveAlignment >= 0.5) {
@@ -75,7 +79,7 @@ export default async function AbgeordnetePage({
   }
 
   const sortedTopics = Object.entries(topicStats)
-    .sort((a, b) => b[1].deviating - a[1].deviating);
+    .sort((a, b) => (b[1].deviating + b[1].absent) - (a[1].deviating + a[1].absent));
 
   return (
     <div>
@@ -126,9 +130,10 @@ export default async function AbgeordnetePage({
           </h3>
           <div className="space-y-2">
             {sortedTopics.map(([topic, stats]) => {
-              const total = stats.consistent + stats.deviating;
-              const consistentPct = Math.round((stats.consistent / total) * 100);
-              const deviatingPct = 100 - consistentPct;
+              const total = stats.consistent + stats.deviating + stats.absent;
+              const consistentPct = total > 0 ? Math.round((stats.consistent / total) * 100) : 0;
+              const deviatingPct = total > 0 ? Math.round((stats.deviating / total) * 100) : 0;
+              const absentPct = 100 - consistentPct - deviatingPct;
               return (
                 <div key={topic} className="flex items-center gap-3 text-[13px]">
                   <div className="w-32 text-gray-700 shrink-0">{topic}</div>
@@ -149,17 +154,31 @@ export default async function AbgeordnetePage({
                         {stats.deviating}
                       </div>
                     )}
+                    {absentPct > 0 && stats.absent > 0 && (
+                      <div
+                        className="bg-gray-400 flex items-center justify-center text-white text-[10px] font-medium"
+                        style={{ width: `${absentPct}%` }}
+                      >
+                        {stats.absent}
+                      </div>
+                    )}
                   </div>
-                  <div className="w-20 text-right text-gray-400 text-[11px]">
+                  <div className="w-24 text-right text-gray-400 text-[11px]">
                     {stats.consistent} / {total}
                   </div>
                 </div>
               );
             })}
           </div>
+          {totalAbsent > 0 && (
+            <div className="mt-2 text-[11px] text-gray-500 bg-gray-50 border border-gray-100 rounded px-3 py-1.5">
+              Bei {totalAbsent} von {memberAnalyses.length} relevanten Abstimmungen war dieser Abgeordnete abwesend.
+            </div>
+          )}
           <div className="flex gap-4 mt-2 text-[11px] text-gray-400">
             <span><span className="inline-block w-2.5 h-2.5 rounded-sm bg-[#2e7d32] mr-1"></span>Konsistent</span>
             <span><span className="inline-block w-2.5 h-2.5 rounded-sm bg-[#c62828] mr-1"></span>Abweichung</span>
+            <span><span className="inline-block w-2.5 h-2.5 rounded-sm bg-gray-400 mr-1"></span>Abwesend</span>
           </div>
         </div>
       )}
