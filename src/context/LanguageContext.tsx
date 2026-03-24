@@ -31,6 +31,11 @@ const translations: Record<string, Record<Language, string>> = {
     "de-leicht": "Übersicht",
     en: "Overview",
   },
+  "nav.parties": {
+    de: "Parteien",
+    "de-leicht": "Parteien",
+    en: "Parties",
+  },
   "nav.votes": {
     de: "Abstimmungen",
     "de-leicht": "Abstimmungen",

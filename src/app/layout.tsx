@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { TopBar } from "@/components/TopBar";
 import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 import { LanguageProvider } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <TopBar />
           <Navigation />
           <main className="max-w-5xl mx-auto px-6 py-6">{children}</main>
+          <Footer />
         </LanguageProvider>
       </body>
     </html>

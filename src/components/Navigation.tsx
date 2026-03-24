@@ -6,9 +6,9 @@ import { useLanguage } from "@/context/LanguageContext";
 
 const NAV_ITEMS = [
   { href: "/", labelKey: "nav.overview" },
+  { href: "/parteien", labelKey: "nav.parties" },
   { href: "/abstimmungen", labelKey: "nav.votes" },
   { href: "/faq", labelKey: "nav.faq" },
-  { href: "/ueber", labelKey: "nav.about" },
 ];
 
 export function Navigation() {
