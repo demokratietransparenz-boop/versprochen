@@ -83,58 +83,52 @@ export default async function ParteiPage({
   let consistentCount = 0;
   let deviationCount = 0;
 
-  if (isAll) {
-    const { data: allAnalyses } = await supabase
+  {
+    // Unified scoring: same logic for both "all" and single parliament
+    // Step 1: Get raw analyses (no join, ensures all rows returned)
+    const analysisQuery = supabase
       .from("analyses")
-      .select("alignment, vote_id, votes!inner(topic_category)")
+      .select("alignment, vote_id, confidence")
       .eq("party_id", party.id)
-      .gte("confidence", 0.8);
+      .gte("confidence", 0.8)
+      .limit(2000);
 
-    totalAnalyses = allAnalyses?.length ?? 0;
+    const { data: rawAnalyses } = await analysisQuery;
 
-    if (allAnalyses?.length) {
-      const totalAlignment = allAnalyses.reduce((sum, a) => sum + a.alignment, 0);
-      overallScoreValue = Math.round((totalAlignment / allAnalyses.length) * 100);
-
-      consistentCount = allAnalyses.filter((a) => a.alignment >= 0.5).length;
-      deviationCount = allAnalyses.filter((a) => a.alignment < 0.5).length;
-
-      const topicAgg: Record<string, { sum: number; count: number }> = {};
-      for (const a of allAnalyses) {
-        const topic = (a as any).votes?.topic_category;
-        if (!topic) continue;
-        if (!topicAgg[topic]) topicAgg[topic] = { sum: 0, count: 0 };
-        topicAgg[topic].sum += a.alignment;
-        topicAgg[topic].count++;
-      }
-      topicScoresFormatted = Object.entries(topicAgg)
-        .map(([cat, agg]) => ({
-          category: cat,
-          score: Math.round((agg.sum / agg.count) * 100),
-        }))
-        .sort((a, b) => b.score - a.score);
+    // Step 2: If filtering by parliament, get vote_ids for this parliament
+    let filteredAnalyses = rawAnalyses ?? [];
+    if (!isAll) {
+      const { data: parlVotes } = await supabase
+        .from("votes")
+        .select("id")
+        .eq("parliament_id", parliament.id);
+      const parlVoteIds = new Set(parlVotes?.map((v) => v.id) ?? []);
+      filteredAnalyses = filteredAnalyses.filter((a) => parlVoteIds.has(a.vote_id));
     }
-  } else {
-    // Same logic as "all" but filtered by parliament
-    const { data: parlAnalyses } = await supabase
-      .from("analyses")
-      .select("alignment, vote_id, votes!inner(topic_category, parliament_id)")
-      .eq("party_id", party.id)
-      .eq("votes.parliament_id", parliament.id)
-      .gte("confidence", 0.8);
 
-    totalAnalyses = parlAnalyses?.length ?? 0;
+    totalAnalyses = filteredAnalyses.length;
 
-    if (parlAnalyses?.length) {
-      const totalAlignment = parlAnalyses.reduce((sum, a) => sum + a.alignment, 0);
-      overallScoreValue = Math.round((totalAlignment / parlAnalyses.length) * 100);
+    if (filteredAnalyses.length) {
+      const totalAlignment = filteredAnalyses.reduce((sum, a) => sum + a.alignment, 0);
+      overallScoreValue = Math.round((totalAlignment / filteredAnalyses.length) * 100);
 
-      consistentCount = parlAnalyses.filter((a) => a.alignment >= 0.5).length;
-      deviationCount = parlAnalyses.filter((a) => a.alignment < 0.5).length;
+      consistentCount = filteredAnalyses.filter((a) => a.alignment >= 0.5).length;
+      deviationCount = filteredAnalyses.filter((a) => a.alignment < 0.5).length;
+    }
+
+    // Step 3: Get topic categories for topic breakdown
+    const voteIds = filteredAnalyses.map((a) => a.vote_id);
+    if (voteIds.length > 0) {
+      const { data: voteTopics } = await supabase
+        .from("votes")
+        .select("id, topic_category")
+        .in("id", voteIds);
+
+      const topicMap = new Map(voteTopics?.map((v) => [v.id, v.topic_category]) ?? []);
 
       const topicAgg: Record<string, { sum: number; count: number }> = {};
-      for (const a of parlAnalyses) {
-        const topic = (a as any).votes?.topic_category;
+      for (const a of filteredAnalyses) {
+        const topic = topicMap.get(a.vote_id);
         if (!topic) continue;
         if (!topicAgg[topic]) topicAgg[topic] = { sum: 0, count: 0 };
         topicAgg[topic].sum += a.alignment;
@@ -148,6 +142,8 @@ export default async function ParteiPage({
         .sort((a, b) => b.score - a.score);
     }
   }
+
+  // Old else block removed — unified scoring above handles both "all" and single parliament
 
   // Get members
   let membersQuery = supabase
