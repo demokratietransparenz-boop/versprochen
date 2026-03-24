@@ -17,6 +17,7 @@ interface LanguageContextValue {
   isLeichteSprache: boolean;
   isEnglish: boolean;
   fontSize: number;
+  setFontSize: (size: number) => void;
   increaseFontSize: () => void;
   decreaseFontSize: () => void;
   t: (key: string) => string;
@@ -343,6 +344,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         isLeichteSprache: language === "de-leicht",
         isEnglish: language === "en",
         fontSize,
+        setFontSize: (size: number) => setFontSize(size),
         increaseFontSize,
         decreaseFontSize,
         t,
