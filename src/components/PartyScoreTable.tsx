@@ -31,7 +31,7 @@ export function PartyScoreTable({ parties }: { parties: PartyScore[] }) {
             <tr key={p.party_id} className="border-b border-gray-100">
               <td className="py-2.5">
                 <Link
-                  href={`/partei/${p.parliament_slug}/${p.party_name.toLowerCase()}`}
+                  href={`/partei/${p.parliament_slug}/${p.party_id}`}
                   className="hover:text-[#1a56b8]"
                 >
                   <span

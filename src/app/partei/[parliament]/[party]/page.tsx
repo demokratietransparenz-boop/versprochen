@@ -16,7 +16,7 @@ export default async function ParteiPage({
   const { data: party } = await supabase
     .from("parties")
     .select("*")
-    .ilike("name", params.party)
+    .eq("id", params.party)
     .single();
 
   if (!party) return notFound();

@@ -5,9 +5,15 @@ interface Deviation {
   party_name: string;
   vote_title: string;
   promise_source: string | null;
+  promise_text: string;
+  expected_vote: string;
+  reasoning: string;
+  reasoning_simple: string | null;
   date: string;
   alignment: number;
+  confidence: number;
   parliament_name: string;
+  source_url: string | null;
 }
 
 export function DeviationFeed({ deviations }: { deviations: Deviation[] }) {
@@ -18,20 +24,30 @@ export function DeviationFeed({ deviations }: { deviations: Deviation[] }) {
       </h3>
       <div className="border border-gray-200 rounded overflow-hidden">
         {deviations.map((d, i) => (
-          <div
-            key={d.id}
-            className={`flex items-start gap-3 px-4 py-3 ${
-              i < deviations.length - 1 ? "border-b border-gray-100" : ""
-            }`}
-          >
-            <DeviationTag alignment={d.alignment} />
-            <div>
+          <div key={d.id} className={`px-4 py-3 ${i < deviations.length - 1 ? "border-b border-gray-100" : ""}`}>
+            <div className="flex items-center gap-3 mb-2">
+              <DeviationTag alignment={d.alignment} />
               <div className="text-[13px] text-gray-900">
                 <strong>{d.party_name}</strong> — {d.vote_title}
               </div>
-              <div className="text-[11px] text-gray-400 mt-0.5">
-                {d.promise_source ? `Quelle: ${d.promise_source} · ` : ""}
+            </div>
+            <div className="ml-0 bg-gray-50 border border-gray-100 rounded p-3 text-xs">
+              <div className="text-gray-700 mb-1.5">
+                <strong>Wahlprogramm:</strong> „{d.promise_text}"
+                <span className="text-gray-400 ml-1">({d.promise_source})</span>
+              </div>
+              <div className="text-gray-500 mb-1.5">
+                Erwartet: <strong className="text-[#2e7d32]">{d.expected_vote.toUpperCase()}</strong> ·
                 {d.parliament_name} · {d.date}
+              </div>
+              <div className="text-gray-500">
+                <strong className="text-gray-700">KI-Analyse:</strong> {d.reasoning}
+                <span className="text-gray-400 ml-1">
+                  (Konfidenz: {Math.round(d.confidence * 100)}%)
+                </span>
+                {d.source_url && (
+                  <> · <a href={d.source_url} target="_blank" rel="noopener noreferrer" className="text-[#1a56b8]">Quelle</a></>
+                )}
               </div>
             </div>
           </div>

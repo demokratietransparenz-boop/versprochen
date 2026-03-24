@@ -15,8 +15,8 @@ export function TopBar() {
         >
           {active ? "✓ Leichte Sprache" : "Leichte Sprache"}
         </button>
-        <span>Über das Projekt</span>
-        <span>Methodik</span>
+        <a href="/ueber" className="hover:text-[#1a56b8]">Über das Projekt</a>
+        <a href="/methodik" className="hover:text-[#1a56b8]">Methodik</a>
       </div>
     </div>
   );

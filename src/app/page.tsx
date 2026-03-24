@@ -80,9 +80,9 @@ export default async function DashboardPage({
   const { data: recentAnalyses } = await supabase
     .from("analyses")
     .select(`
-      id, alignment, vote_id, confidence,
-      votes!inner(title, date, parliament_id, parliaments!inner(name)),
-      promises!inner(source),
+      id, alignment, vote_id, confidence, expected_vote, reasoning, reasoning_simple,
+      votes!inner(title, date, source_url, parliament_id, parliaments!inner(name)),
+      promises!inner(source, text),
       parties!inner(name)
     `)
     .eq("votes.parliament_id", activeParliament)
@@ -100,16 +100,21 @@ export default async function DashboardPage({
       parliament_slug: activeParliament,
     })) ?? [];
 
-  const deviations =
-    recentAnalyses?.map((a: any) => ({
-      id: a.id,
-      party_name: a.parties.name,
-      vote_title: a.votes.title,
-      promise_source: a.promises.source,
-      date: a.votes.date,
-      alignment: a.alignment,
-      parliament_name: a.votes.parliaments.name,
-    })) ?? [];
+  const deviations = recentAnalyses?.map((a: any) => ({
+    id: a.id,
+    party_name: a.parties.name,
+    vote_title: a.votes.title,
+    promise_source: a.promises.source,
+    promise_text: a.promises.text,
+    expected_vote: a.expected_vote,
+    reasoning: a.reasoning,
+    reasoning_simple: a.reasoning_simple,
+    date: a.votes.date,
+    alignment: a.alignment,
+    confidence: a.confidence,
+    parliament_name: a.votes.parliaments.name,
+    source_url: a.votes.source_url,
+  })) ?? [];
 
   return (
     <div>
