@@ -38,6 +38,9 @@ export function DeviationFeed({ deviations }: { deviations: Deviation[] }) {
               </div>
               <div className="text-gray-500 mb-1.5">
                 Erwartet: <strong className="text-[#2e7d32]">{d.expected_vote.toUpperCase()}</strong> ·
+                Tatsächlich: <strong className={d.alignment >= 0.5 ? "text-[#2e7d32]" : "text-[#c62828]"}>
+                  {d.alignment >= 0.5 ? d.expected_vote.toUpperCase() : (d.expected_vote === "ja" ? "NEIN" : "JA")}
+                </strong> ·
                 {d.parliament_name} · {d.date}
               </div>
               <div className="text-gray-500">
