@@ -49,7 +49,7 @@ interface ParteiClientProps {
   weakTopics: string[];
   reliableMembers: ReliableMember[];
   deviatingMembers: DeviatingMember[];
-  profile: { summary: string; positions: string; vision: { de: string; en: string; "de-leicht": string } } | null;
+  profile: { summary: string; positions: string; vision: { de: string; en: string; "de-leicht": string }; economicImpact: { de: string; en: string; "de-leicht": string } } | null;
 }
 
 export function ParteiClient({
@@ -135,6 +135,32 @@ export function ParteiClient({
           </h3>
           <p className="text-[13px] text-blue-100 leading-relaxed">
             {profile.vision[language]}
+          </p>
+        </div>
+      )}
+
+      {/* Economic Impact Assessment */}
+      {profile?.economicImpact && (
+        <div className="border border-amber-200 bg-amber-50 rounded-lg p-5 mb-6">
+          <div className="flex items-start gap-2 mb-2">
+            <span className="text-[18px]">📊</span>
+            <h3 className="text-[15px] font-semibold text-gray-900">
+              {language === "en"
+                ? "Economic Impact Assessment"
+                : language === "de-leicht"
+                  ? "Was bedeutet das für die Wirtschaft?"
+                  : "Wirtschaftliche Folgenabschätzung"}
+            </h3>
+          </div>
+          <p className="text-[13px] text-gray-700 leading-relaxed mb-3">
+            {profile.economicImpact[language]}
+          </p>
+          <p className="text-[11px] text-amber-700 italic">
+            {language === "en"
+              ? "🤖 AI-generated assessment based on the party's program positions and established economic research. This is not a prediction but an informed estimate of likely tendencies."
+              : language === "de-leicht"
+                ? "🤖 Diese Einschätzung wurde von einer KI erstellt. Sie basiert auf dem Wahlprogramm der Partei und Wissen über Wirtschaft. Es ist keine sichere Vorhersage."
+                : "🤖 KI-gestützte Einschätzung basierend auf den Programmpositionen der Partei und wirtschaftswissenschaftlichen Erkenntnissen. Dies ist keine Prognose, sondern eine informierte Abschätzung wahrscheinlicher Tendenzen."}
           </p>
         </div>
       )}
