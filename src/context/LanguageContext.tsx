@@ -193,9 +193,9 @@ const translations: Record<string, Record<Language, string>> = {
   },
   // PartyScoreTable
   "scores.title": {
-    de: "Partei-Scores",
-    "de-leicht": "Ergebnisse der Parteien",
-    en: "Party Scores",
+    de: "Wie gut halten Parteien ihre Versprechen?",
+    "de-leicht": "Halten die Parteien ihre Versprechen?",
+    en: "How well do parties keep their promises?",
   },
   "scores.basedOn": {
     de: "Basierend auf",
@@ -213,9 +213,9 @@ const translations: Record<string, Record<Language, string>> = {
     en: "Party",
   },
   "scores.overallScore": {
-    de: "Gesamtscore",
-    "de-leicht": "Gesamt-Ergebnis",
-    en: "Overall Score",
+    de: "Versprechen gehalten",
+    "de-leicht": "Versprechen gehalten",
+    en: "Promises kept",
   },
   "scores.analyses": {
     de: "Zugeordnete Analysen",
@@ -413,9 +413,9 @@ const translations: Record<string, Record<Language, string>> = {
     en: "Members",
   },
   "party.overallScore": {
-    de: "Gesamtscore",
-    "de-leicht": "Gesamt-Ergebnis",
-    en: "Overall Score",
+    de: "Versprechen gehalten",
+    "de-leicht": "Versprechen gehalten",
+    en: "Promises kept",
   },
   "party.aboutParty": {
     de: "Über die Partei",
