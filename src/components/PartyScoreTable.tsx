@@ -38,27 +38,39 @@ export function PartyScoreTable({
             <th className="py-2 text-gray-500 font-medium">{t("scores.party")}</th>
             <th className="py-2 text-gray-500 font-medium">{t("scores.overallScore")}</th>
             <th className="py-2 text-gray-500 font-medium text-right">{t("scores.analyses")}</th>
+            <th className="py-2 w-8"></th>
           </tr>
         </thead>
         <tbody>
           {parties.map((p) => (
-            <tr key={p.party_id} className="border-b border-gray-100">
+            <tr key={p.party_id} className="border-b border-gray-100 group cursor-pointer hover:bg-blue-50 transition-colors">
               <td className="py-2.5">
                 <Link
                   href={`/partei/${p.parliament_slug}/${p.party_id}`}
-                  className="hover:text-[#1a56b8]"
+                  className="flex items-center gap-2 group-hover:text-[#1a56b8]"
                 >
                   <span
-                    className="inline-block w-3 h-3 rounded-sm mr-2 align-middle"
+                    className="inline-block w-3 h-3 rounded-sm shrink-0"
                     style={{ backgroundColor: PARTY_COLORS[p.party_name] ?? "#888" }}
                   />
                   <strong>{p.party_name}</strong>
                 </Link>
               </td>
               <td className="py-2.5">
-                <ScoreText score={p.score} /> <ScoreBar score={p.score} />
+                <Link href={`/partei/${p.parliament_slug}/${p.party_id}`} className="block">
+                  <ScoreText score={p.score} /> <ScoreBar score={p.score} />
+                </Link>
               </td>
-              <td className="py-2.5 text-right text-gray-400">{p.analysis_count}</td>
+              <td className="py-2.5 text-right text-gray-400">
+                <Link href={`/partei/${p.parliament_slug}/${p.party_id}`} className="block">
+                  {p.analysis_count}
+                </Link>
+              </td>
+              <td className="py-2.5 text-right">
+                <Link href={`/partei/${p.parliament_slug}/${p.party_id}`} className="text-gray-300 group-hover:text-[#1a56b8] transition-colors text-[14px]">
+                  →
+                </Link>
+              </td>
             </tr>
           ))}
         </tbody>
