@@ -51,3 +51,8 @@ export function getScoreBgColor(score: number): string {
   if (score >= TRAFFIC_LIGHT_THRESHOLDS.gelb) return COLORS.bgOrange;
   return COLORS.bgRed;
 }
+
+export function cleanSourceUrl(url: string | null): string | null {
+  if (!url) return null;
+  return url.replace(/^https:\/\/www\.abgeordnetenwatch\.dehttps?:\/\/www\.abgeordnetenwatch\.de/, "https://www.abgeordnetenwatch.de");
+}

@@ -4,6 +4,7 @@ interface MemberDeviation {
   id: string;
   name: string;
   constituency: string | null;
+  legislature?: string;
   deviations: number;
 }
 
@@ -24,6 +25,11 @@ export function MemberDeviationTable({ members }: { members: MemberDeviation[] }
                 {m.constituency && (
                   <span className="text-gray-400 text-[11px] ml-1">
                     · Wahlkreis {m.constituency}
+                  </span>
+                )}
+                {m.legislature && (
+                  <span className="text-gray-400 text-[11px] ml-1">
+                    · {m.legislature}
                   </span>
                 )}
               </td>

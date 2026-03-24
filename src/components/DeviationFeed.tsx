@@ -48,9 +48,27 @@ export function DeviationFeed({ deviations }: { deviations: Deviation[] }) {
                 <span className="text-gray-400 ml-1">
                   (Konfidenz: {Math.round(d.confidence * 100)}%)
                 </span>
+              </div>
+              <div className="flex gap-3 mt-2 pt-2 border-t border-gray-100">
                 {d.source_url && (
-                  <> · <a href={d.source_url} target="_blank" rel="noopener noreferrer" className="text-[#1a56b8]">Quelle</a></>
+                  <a
+                    href={d.source_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[12px] text-[#1a56b8] hover:underline"
+                  >
+                    abgeordnetenwatch.de
+                  </a>
                 )}
+                <a
+                  href="https://www.bundestag.de/parlament/plenum/abstimmung/liste"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[12px] text-[#1a56b8] hover:underline"
+                >
+                  bundestag.de
+                </a>
+                <span className="text-[12px] text-gray-400">{d.date}</span>
               </div>
             </div>
           </div>

@@ -55,21 +55,29 @@ export function VoteAnalysisCard({ analysis }: { analysis: VoteAnalysis }) {
         </div>
         <div className="bg-gray-50 border border-gray-100 rounded p-2.5 text-xs text-gray-500">
           <strong className="text-gray-700">KI-Analyse:</strong> {reasoning}
-          <div className="mt-1 text-[11px] text-gray-400">
+          <div className="mt-1.5 text-[11px] text-gray-400">
             Konfidenz: {Math.round(analysis.confidence * 100)}%
+          </div>
+          <div className="flex gap-3 mt-2 pt-2 border-t border-gray-100">
             {analysis.source_url && (
-              <>
-                {" · "}
-                <a
-                  href={analysis.source_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#1a56b8]"
-                >
-                  Quelle anzeigen
-                </a>
-              </>
+              <a
+                href={analysis.source_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[11px] text-[#1a56b8] hover:underline"
+              >
+                abgeordnetenwatch.de
+              </a>
             )}
+            <a
+              href="https://www.bundestag.de/parlament/plenum/abstimmung/liste"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] text-[#1a56b8] hover:underline"
+            >
+              bundestag.de
+            </a>
+            <span className="text-[11px] text-gray-400">{analysis.vote_date}</span>
           </div>
         </div>
       </div>

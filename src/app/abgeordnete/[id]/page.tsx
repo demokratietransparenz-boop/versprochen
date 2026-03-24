@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import { cleanSourceUrl } from "@/lib/constants";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { VoteAnalysisCard } from "@/components/VoteAnalysisCard";
 import { ScoreText } from "@/components/TrafficLight";
@@ -237,7 +238,7 @@ export default async function AbgeordnetePage({
             reasoning: a.reasoning,
             reasoning_simple: a.reasoning_simple,
             confidence: a.confidence,
-            source_url: a.votes.source_url,
+            source_url: cleanSourceUrl(a.votes.source_url),
             promise_source: a.promises.source,
           }}
         />

@@ -6,24 +6,33 @@ interface PartyScore {
   party_id: string;
   party_name: string;
   score: number;
-  trend: number;
-  vote_count: number;
+  analysis_count: number;
   parliament_slug: string;
 }
 
-export function PartyScoreTable({ parties }: { parties: PartyScore[] }) {
+export function PartyScoreTable({
+  parties,
+  voteCount,
+}: {
+  parties: PartyScore[];
+  voteCount: number;
+}) {
   return (
     <div>
-      <h3 className="text-base font-semibold text-gray-900 mb-3 pb-2 border-b border-gray-200">
-        Partei-Scores
-      </h3>
+      <div className="flex items-baseline justify-between mb-3 pb-2 border-b border-gray-200">
+        <h3 className="text-base font-semibold text-gray-900">
+          Partei-Scores
+        </h3>
+        <span className="text-[12px] text-gray-400">
+          Basierend auf {voteCount} analysierten Abstimmungen
+        </span>
+      </div>
       <table className="w-full text-[13px]">
         <thead>
           <tr className="border-b-2 border-gray-200 text-left">
             <th className="py-2 text-gray-500 font-medium">Partei</th>
             <th className="py-2 text-gray-500 font-medium">Gesamtscore</th>
-            <th className="py-2 text-gray-500 font-medium">Tendenz</th>
-            <th className="py-2 text-gray-500 font-medium text-right">Abstimmungen</th>
+            <th className="py-2 text-gray-500 font-medium text-right">Zugeordnete Analysen</th>
           </tr>
         </thead>
         <tbody>
@@ -44,21 +53,7 @@ export function PartyScoreTable({ parties }: { parties: PartyScore[] }) {
               <td className="py-2.5">
                 <ScoreText score={p.score} /> <ScoreBar score={p.score} />
               </td>
-              <td className="py-2.5">
-                <span
-                  className={
-                    p.trend > 0
-                      ? "text-[#2e7d32]"
-                      : p.trend < 0
-                        ? "text-[#c62828]"
-                        : "text-gray-400"
-                  }
-                >
-                  {p.trend > 0 ? "+" : ""}
-                  {p.trend}%
-                </span>
-              </td>
-              <td className="py-2.5 text-right text-gray-400">{p.vote_count}</td>
+              <td className="py-2.5 text-right text-gray-400">{p.analysis_count}</td>
             </tr>
           ))}
         </tbody>
