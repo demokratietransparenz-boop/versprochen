@@ -16,7 +16,7 @@ interface PartyData {
 }
 
 export function ParteienClient({ parties }: { parties: PartyData[] }) {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <div>
@@ -24,11 +24,7 @@ export function ParteienClient({ parties }: { parties: PartyData[] }) {
         {t("nav.parties")}
       </h1>
       <p className="text-[14px] text-gray-500 mb-6 max-w-2xl">
-        {language === "en"
-          ? "All parties at a glance — click on a party for detailed analysis, economic impact assessment, and individual member voting behavior."
-          : language === "de-leicht"
-            ? "Alle Parteien auf einen Blick. Klicke auf eine Partei für mehr Infos."
-            : "Alle Parteien auf einen Blick — klicken Sie auf eine Partei für detaillierte Analyse, wirtschaftliche Folgenabschätzung und das Abstimmungsverhalten einzelner Abgeordneter."}
+        {t("parties.subtitle")}
       </p>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -64,7 +60,7 @@ export function ParteienClient({ parties }: { parties: PartyData[] }) {
               <div>
                 <div className="text-[13px] font-semibold text-gray-900">{p.analysisCount}</div>
                 <div className="text-[10px] text-gray-400">
-                  {language === "en" ? "Analyses" : "Analysen"}
+                  {t("parties.analyses")}
                 </div>
               </div>
               <div>
@@ -83,11 +79,7 @@ export function ParteienClient({ parties }: { parties: PartyData[] }) {
 
             <div className="mt-3 pt-3 border-t border-gray-100 text-[12px] text-gray-400 group-hover:text-[#1a56b8] transition-colors flex items-center justify-between">
               <span>
-                {language === "en"
-                  ? "Detailed analysis, economic impact & members"
-                  : language === "de-leicht"
-                    ? "Mehr Infos, Wirtschaft & Abgeordnete"
-                    : "Detailanalyse, Folgenabschätzung & Abgeordnete"}
+                {t("parties.detailLink")}
               </span>
               <span className="text-[14px]">→</span>
             </div>

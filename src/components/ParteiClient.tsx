@@ -50,8 +50,8 @@ interface ParteiClientProps {
   reliableMembers: ReliableMember[];
   deviatingMembers: DeviatingMember[];
   profile: {
-    summary: string;
-    positions: string;
+    summary: { de: string; en: string; "de-leicht": string };
+    positions: { de: string; en: string; "de-leicht": string };
     vision: { de: string; en: string; "de-leicht": string };
     economicImpact: { de: string; en: string; "de-leicht": string };
     scenarios: Array<{
@@ -85,6 +85,9 @@ export function ParteiClient({
 }: ParteiClientProps) {
   const { t, language } = useLanguage();
 
+  const effectiveBreadcrumbLabel = breadcrumbLabel || t("tabs.allPeriods");
+  const effectiveLegislature = parliamentLegislature || t("tabs.allPeriods");
+
   // Build assessment text based on data
   let assessment = "";
   if (overallScoreValue >= 70) {
@@ -107,7 +110,7 @@ export function ParteiClient({
       <Breadcrumb
         items={[
           { label: t("breadcrumb.overview"), href: `/?parliament=${parliamentId}` },
-          { label: breadcrumbLabel, href: `/?parliament=${parliamentId}` },
+          { label: effectiveBreadcrumbLabel, href: `/?parliament=${parliamentId}` },
           { label: partyName },
         ]}
       />
@@ -123,7 +126,7 @@ export function ParteiClient({
         <div className="flex-1">
           <h1 className="text-xl font-bold text-gray-900">{partyName}</h1>
           <p className="text-[13px] text-gray-400">
-            {partyFullName} &middot; {parliamentLegislature} &middot; {memberCount} {t("party.members")}
+            {partyFullName} &middot; {effectiveLegislature} &middot; {memberCount} {t("party.members")}
           </p>
         </div>
         <div className="text-right">
@@ -138,11 +141,7 @@ export function ParteiClient({
       {profile?.vision && (
         <div className="bg-gradient-to-br from-[#0d1b3e] to-[#1a3a6b] text-white rounded-lg p-5 mb-6">
           <h3 className="text-[15px] font-semibold mb-2">
-            {language === "en"
-              ? `If you vote for ${partyName}, you support this vision:`
-              : language === "de-leicht"
-                ? `Wenn du ${partyName} wählst, unterstützt du das:`
-                : `Wenn Sie ${partyName} wählen, unterstützen Sie diese Zukunftsvision:`}
+            {t("party.visionHeading").replace("{party}", partyName)}
           </h3>
           <p className="text-[13px] text-blue-100 leading-relaxed">
             {profile.vision[language]}
@@ -156,11 +155,7 @@ export function ParteiClient({
           <div className="flex items-start gap-2 mb-2">
             <span className="text-[18px]">📊</span>
             <h3 className="text-[15px] font-semibold text-gray-900">
-              {language === "en"
-                ? "Economic Impact Assessment"
-                : language === "de-leicht"
-                  ? "Was bedeutet das für die Wirtschaft?"
-                  : "Wirtschaftliche Folgenabschätzung"}
+              {t("party.economicTitle")}
             </h3>
           </div>
           <p className="text-[13px] text-gray-700 leading-relaxed mb-3">
@@ -170,11 +165,7 @@ export function ParteiClient({
           {profile.scenarios && profile.scenarios.length > 0 && (
             <div className="mt-4 pt-3 border-t border-amber-200">
               <h4 className="text-[13px] font-semibold text-gray-900 mb-3">
-                {language === "en"
-                  ? "Impact by group — what does this mean for you?"
-                  : language === "de-leicht"
-                    ? "Was bedeutet das für dich?"
-                    : "Auswirkungen nach Berufsgruppe — was bedeutet das für Sie?"}
+                {t("party.economicGroupTitle")}
               </h4>
               <div className="space-y-2">
                 {profile.scenarios.map((s, i) => (
@@ -190,9 +181,7 @@ export function ParteiClient({
                           s.verdict === "negativ" ? "bg-red-100 text-red-800" :
                           "bg-yellow-100 text-yellow-800"
                         }`}>
-                          {language === "en"
-                            ? s.verdict === "positiv" ? "positive" : s.verdict === "negativ" ? "negative" : "mixed"
-                            : s.verdict === "positiv" ? "positiv" : s.verdict === "negativ" ? "negativ" : "gemischt"}
+                          {s.verdict === "positiv" ? t("party.verdictPositive") : s.verdict === "negativ" ? t("party.verdictNegative") : t("party.verdictMixed")}
                         </span>
                         <span className="text-gray-400 group-open:rotate-180 transition-transform text-[10px]">▼</span>
                       </span>
@@ -207,11 +196,7 @@ export function ParteiClient({
           )}
 
           <p className="text-[11px] text-amber-700 italic mt-3">
-            {language === "en"
-              ? "🤖 AI-generated assessment based on the party's program positions and established economic research. This is not a prediction but an informed estimate of likely tendencies."
-              : language === "de-leicht"
-                ? "🤖 Diese Einschätzung wurde von einer KI erstellt. Sie basiert auf dem Wahlprogramm der Partei und Wissen über Wirtschaft. Es ist keine sichere Vorhersage."
-                : "🤖 KI-gestützte Einschätzung basierend auf den Programmpositionen der Partei und wirtschaftswissenschaftlichen Erkenntnissen. Dies ist keine Prognose, sondern eine informierte Abschätzung wahrscheinlicher Tendenzen."}
+            {"🤖 "}{t("party.economicDisclaimer")}
           </p>
         </div>
       )}
@@ -221,10 +206,10 @@ export function ParteiClient({
         <div className="bg-gray-50 rounded-lg p-5 mb-6">
           <h3 className="text-[15px] font-semibold text-gray-900 mb-2">{t("party.aboutParty")}</h3>
           <p className="text-[13px] text-gray-600 leading-relaxed mb-3">
-            {profile.summary}
+            {profile.summary[language]}
           </p>
           <p className="text-[13px] text-gray-500 leading-relaxed">
-            <strong className="text-gray-700">{t("party.programFocus")}</strong> {profile.positions}
+            <strong className="text-gray-700">{t("party.programFocus")}</strong> {profile.positions[language]}
           </p>
         </div>
       )}

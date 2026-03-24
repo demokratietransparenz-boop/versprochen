@@ -1,4 +1,7 @@
+"use client";
+
 import { getScoreColor, getScoreBgColor } from "@/lib/constants";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function ScoreBar({ score }: { score: number }) {
   return (
@@ -23,23 +26,25 @@ export function ScoreText({ score }: { score: number }) {
 }
 
 export function DeviationTag({ alignment }: { alignment: number }) {
+  const { t } = useLanguage();
+
   if (alignment >= 0.7) {
     return (
       <span className="bg-[#e8f5e9] text-[#2e7d32] text-[10px] font-semibold px-2 py-0.5 rounded">
-        KONSISTENT
+        {t("tag.consistent")}
       </span>
     );
   }
   if (alignment >= 0.5) {
     return (
       <span className="bg-[#fff3e0] text-[#e65100] text-[10px] font-semibold px-2 py-0.5 rounded">
-        TEILWEISE
+        {t("tag.partial")}
       </span>
     );
   }
   return (
     <span className="bg-[#ffebee] text-[#c62828] text-[10px] font-semibold px-2 py-0.5 rounded">
-      ABWEICHUNG
+      {t("tag.deviation")}
     </span>
   );
 }

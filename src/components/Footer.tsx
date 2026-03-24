@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Footer() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <footer className="mt-12 border-t border-gray-200 bg-gray-50 px-6 py-8">
@@ -16,18 +16,14 @@ export function Footer() {
               Versprochen<span className="text-[#c41e3a]">?</span>
             </Link>
             <p className="text-[12px] text-gray-400 mt-2 leading-relaxed">
-              {language === "en"
-                ? "Transparency for democracy. An independent civic tech project."
-                : language === "de-leicht"
-                  ? "Transparenz für die Demokratie. Ein unabhängiges Projekt."
-                  : "Transparenz für die Demokratie. Ein unabhängiges Civic-Tech-Projekt."}
+              {t("footer.tagline")}
             </p>
           </div>
 
           {/* Navigation */}
           <div>
             <h4 className="text-[12px] font-semibold text-gray-500 uppercase tracking-wide mb-2">
-              {language === "en" ? "Navigation" : "Navigation"}
+              {t("footer.navigation")}
             </h4>
             <div className="flex flex-col gap-1.5 text-[13px]">
               <Link href="/" className="text-gray-600 hover:text-[#1a56b8]">{t("nav.overview")}</Link>
@@ -40,7 +36,7 @@ export function Footer() {
           {/* Projekt */}
           <div>
             <h4 className="text-[12px] font-semibold text-gray-500 uppercase tracking-wide mb-2">
-              {language === "en" ? "Project" : "Projekt"}
+              {t("footer.project")}
             </h4>
             <div className="flex flex-col gap-1.5 text-[13px]">
               <Link href="/ueber" className="text-gray-600 hover:text-[#1a56b8]">{t("nav.about")}</Link>
@@ -58,14 +54,10 @@ export function Footer() {
 
         <div className="mt-6 pt-4 border-t border-gray-200 text-[11px] text-gray-400 flex flex-col sm:flex-row justify-between gap-2">
           <span>
-            {language === "en"
-              ? "Data sources: abgeordnetenwatch.de · Bundestag Open Data · Wahl-O-Mat"
-              : "Datenquellen: abgeordnetenwatch.de · Bundestag Open Data · Wahl-O-Mat"}
+            {t("footer.dataSources")}
           </span>
           <span>
-            {language === "en"
-              ? "AI analysis: Claude by Anthropic · All assessments without guarantee"
-              : "KI-Analyse: Claude von Anthropic · Alle Angaben ohne Gewähr"}
+            {t("footer.aiDisclaimer")}
           </span>
         </div>
       </div>

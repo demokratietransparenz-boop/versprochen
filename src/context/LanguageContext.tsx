@@ -623,6 +623,324 @@ const translations: Record<string, Record<Language, string>> = {
     "de-leicht": "Übersicht",
     en: "Overview",
   },
+
+  // TrafficLight tags
+  "tag.consistent": {
+    de: "KONSISTENT",
+    "de-leicht": "ÜBEREINSTIMMEND",
+    en: "CONSISTENT",
+  },
+  "tag.partial": {
+    de: "TEILWEISE",
+    "de-leicht": "TEILWEISE",
+    en: "PARTIAL",
+  },
+  "tag.deviation": {
+    de: "ABWEICHUNG",
+    "de-leicht": "ABWEICHUNG",
+    en: "DEVIATION",
+  },
+
+  // Homepage server component strings
+  "home.votesAnalyzed": {
+    de: "Abstimmungen analysiert",
+    "de-leicht": "Abstimmungen geprüft",
+    en: "votes analyzed",
+  },
+  "home.legislativePeriods": {
+    de: "Wahlperioden",
+    "de-leicht": "Wahlperioden",
+    en: "legislative periods",
+  },
+
+  // MemberDeviationTable
+  "memberDeviation.title": {
+    de: "Abgeordnete mit den meisten Abweichungen",
+    "de-leicht": "Abgeordnete mit den meisten Abweichungen",
+    en: "Members with Most Deviations",
+  },
+  "memberDeviation.constituency": {
+    de: "Wahlkreis",
+    "de-leicht": "Wahlkreis",
+    en: "Constituency",
+  },
+  "memberDeviation.deviations": {
+    de: "Abweichungen",
+    "de-leicht": "Abweichungen",
+    en: "Deviations",
+  },
+
+  // ParteiClient vision/economic headings
+  "party.visionHeading": {
+    de: "Wenn Sie {party} wählen, unterstützen Sie diese Zukunftsvision:",
+    "de-leicht": "Wenn du {party} wählst, unterstützt du das:",
+    en: "If you vote for {party}, you support this vision:",
+  },
+  "party.economicTitle": {
+    de: "Wirtschaftliche Folgenabschätzung",
+    "de-leicht": "Was bedeutet das für die Wirtschaft?",
+    en: "Economic Impact Assessment",
+  },
+  "party.economicGroupTitle": {
+    de: "Auswirkungen nach Berufsgruppe — was bedeutet das für Sie?",
+    "de-leicht": "Was bedeutet das für dich?",
+    en: "Impact by group — what does this mean for you?",
+  },
+  "party.economicDisclaimer": {
+    de: "KI-gestützte Einschätzung basierend auf den Programmpositionen der Partei und wirtschaftswissenschaftlichen Erkenntnissen. Dies ist keine Prognose, sondern eine informierte Abschätzung wahrscheinlicher Tendenzen.",
+    "de-leicht": "Diese Einschätzung wurde von einer KI erstellt. Sie basiert auf dem Wahlprogramm der Partei und Wissen über Wirtschaft. Es ist keine sichere Vorhersage.",
+    en: "AI-generated assessment based on the party's program positions and established economic research. This is not a prediction but an informed estimate of likely tendencies.",
+  },
+  "party.verdictPositive": {
+    de: "positiv",
+    "de-leicht": "positiv",
+    en: "positive",
+  },
+  "party.verdictNegative": {
+    de: "negativ",
+    "de-leicht": "negativ",
+    en: "negative",
+  },
+  "party.verdictMixed": {
+    de: "gemischt",
+    "de-leicht": "gemischt",
+    en: "mixed",
+  },
+
+  // ParteienClient
+  "parties.subtitle": {
+    de: "Alle Parteien auf einen Blick — klicken Sie auf eine Partei für detaillierte Analyse, wirtschaftliche Folgenabschätzung und das Abstimmungsverhalten einzelner Abgeordneter.",
+    "de-leicht": "Alle Parteien auf einen Blick. Klicke auf eine Partei für mehr Infos.",
+    en: "All parties at a glance — click on a party for detailed analysis, economic impact assessment, and individual member voting behavior.",
+  },
+  "parties.analyses": {
+    de: "Analysen",
+    "de-leicht": "Analysen",
+    en: "Analyses",
+  },
+  "parties.detailLink": {
+    de: "Detailanalyse, Folgenabschätzung & Abgeordnete",
+    "de-leicht": "Mehr Infos, Wirtschaft & Abgeordnete",
+    en: "Detailed analysis, economic impact & members",
+  },
+
+  // TopBar
+  "topbar.smallFont": {
+    de: "Kleine Schrift",
+    "de-leicht": "Kleine Schrift",
+    en: "Small font",
+  },
+  "topbar.normalFont": {
+    de: "Normale Schrift",
+    "de-leicht": "Normale Schrift",
+    en: "Normal font",
+  },
+  "topbar.largeFont": {
+    de: "Große Schrift",
+    "de-leicht": "Große Schrift",
+    en: "Large font",
+  },
+  "topbar.easyLanguage": {
+    de: "Leichte Sprache",
+    "de-leicht": "Leichte Sprache",
+    en: "Easy language",
+  },
+
+  // Footer
+  "footer.tagline": {
+    de: "Transparenz für die Demokratie. Ein unabhängiges Civic-Tech-Projekt.",
+    "de-leicht": "Transparenz für die Demokratie. Ein unabhängiges Projekt.",
+    en: "Transparency for democracy. An independent civic tech project.",
+  },
+  "footer.navigation": {
+    de: "Navigation",
+    "de-leicht": "Navigation",
+    en: "Navigation",
+  },
+  "footer.project": {
+    de: "Projekt",
+    "de-leicht": "Projekt",
+    en: "Project",
+  },
+  "footer.dataSources": {
+    de: "Datenquellen: abgeordnetenwatch.de · Bundestag Open Data · Wahl-O-Mat",
+    "de-leicht": "Datenquellen: abgeordnetenwatch.de · Bundestag Open Data · Wahl-O-Mat",
+    en: "Data sources: abgeordnetenwatch.de · Bundestag Open Data · Wahl-O-Mat",
+  },
+  "footer.aiDisclaimer": {
+    de: "KI-Analyse: Claude von Anthropic · Alle Angaben ohne Gewähr",
+    "de-leicht": "KI-Analyse: Claude von Anthropic · Alle Angaben ohne Gewähr",
+    en: "AI analysis: Claude by Anthropic · All assessments without guarantee",
+  },
+
+  // Unknown member
+  "common.unknown": {
+    de: "Unbekannt",
+    "de-leicht": "Unbekannt",
+    en: "Unknown",
+  },
+
+  // Methodik page
+  "methodik.title": {
+    de: "Methodik",
+    "de-leicht": "Methode",
+    en: "Methodology",
+  },
+  "methodik.intro": {
+    de: "Diese Seite beschreibt, wie Versprochen? Abstimmungsverhalten mit Wahlprogrammen abgleicht und bewertet. Transparenz über die Methode ist uns genauso wichtig wie Transparenz über die Ergebnisse.",
+    "de-leicht": "Hier erklären wir, wie wir prüfen, ob Parteien ihre Versprechen halten. Die Methode soll genauso klar sein wie die Ergebnisse.",
+    en: "This page describes how Versprochen? compares voting behavior with election programs and evaluates them. Transparency about the method is just as important to us as transparency about the results.",
+  },
+  "methodik.dataCollection": {
+    de: "1. Datensammlung",
+    "de-leicht": "1. Daten sammeln",
+    en: "1. Data Collection",
+  },
+  "methodik.dataCollectionText": {
+    de: "Nach jeder Sitzungswoche werden automatisch alle neuen Abstimmungen über die abgeordnetenwatch.de API abgerufen. Für jede Abstimmung wird erfasst: Titel, Beschreibung, Datum und das individuelle Stimmverhalten jedes Abgeordneten (Ja, Nein, Enthaltung, Abwesend).",
+    "de-leicht": "Nach jeder Sitzungswoche holen wir automatisch alle neuen Abstimmungen. Wir wissen dann: Was wurde abgestimmt? Wer hat wie gestimmt?",
+    en: "After each session week, all new votes are automatically retrieved via the abgeordnetenwatch.de API. For each vote, we capture: title, description, date, and the individual voting behavior of each member (Yes, No, Abstention, Absent).",
+  },
+  "methodik.topicCategorization": {
+    de: "2. Themen-Kategorisierung",
+    "de-leicht": "2. Themen sortieren",
+    en: "2. Topic Categorization",
+  },
+  "methodik.topicCategorizationText": {
+    de: "Jede Abstimmung wird automatisch einer von zehn Themenkategorien zugeordnet: Klimapolitik, Sozialpolitik, Wirtschaft, Migration, Bildung, Gesundheit, Sicherheit, Digitales, Außenpolitik oder Finanzen. Dies geschieht durch eine KI-Analyse des Abstimmungstitels und der Beschreibung.",
+    "de-leicht": "Ein Computer ordnet jede Abstimmung einem Thema zu, zum Beispiel: Umwelt, Soziales, Wirtschaft oder Gesundheit.",
+    en: "Each vote is automatically assigned to one of ten topic categories: Climate Policy, Social Policy, Economy, Migration, Education, Health, Security, Digital, Foreign Policy, or Finance. This is done through AI analysis of the vote title and description.",
+  },
+  "methodik.promiseMatching": {
+    de: "3. Zuordnung zu Wahlversprechen",
+    "de-leicht": "3. Versprechen finden",
+    en: "3. Matching to Election Promises",
+  },
+  "methodik.promiseMatchingText": {
+    de: "Für jede Partei wird geprüft, ob die Abstimmung sich auf eine Position im Wahlprogramm bezieht. Die KI vergleicht die Abstimmung mit allen Wahlprogramm-Positionen der gleichen Themenkategorie und identifiziert die beste Übereinstimmung. Wird keine passende Position gefunden, wird die Abstimmung als \u201Enicht zuordenbar\u201C markiert.",
+    "de-leicht": "Der Computer prüft: Gibt es ein Versprechen, das zur Abstimmung passt? Wenn nicht, wird die Abstimmung nicht bewertet.",
+    en: "For each party, we check whether the vote relates to a position in the election program. The AI compares the vote with all program positions in the same topic category and identifies the best match. If no matching position is found, the vote is marked as 'unassignable'.",
+  },
+  "methodik.alignmentAssessment": {
+    de: "4. Bewertung der Übereinstimmung",
+    "de-leicht": "4. Ergebnis berechnen",
+    en: "4. Alignment Assessment",
+  },
+  "methodik.alignmentAssessmentText1": {
+    de: "Wurde eine Zuordnung gefunden, bewertet die KI die Übereinstimmung zwischen dem tatsächlichen Abstimmungsverhalten der Fraktion und der Position im Wahlprogramm. Das Ergebnis ist ein Wert zwischen 0.0 (kompletter Widerspruch) und 1.0 (volle Übereinstimmung).",
+    "de-leicht": "Der Computer gibt eine Zahl von 0 bis 1. 0 heißt: Die Partei hat das Gegenteil gemacht. 1 heißt: Die Partei hat genau so abgestimmt wie versprochen.",
+    en: "If a match is found, the AI evaluates alignment between the actual faction voting behavior and the program position. The result is a value between 0.0 (complete contradiction) and 1.0 (full alignment).",
+  },
+  "methodik.alignmentAssessmentText2": {
+    de: "Das Fraktionsergebnis wird als Mehrheitsvotum berechnet: Stimmt die Mehrheit der Fraktionsmitglieder mit Ja, gilt das Fraktionsergebnis als \u201EJa\u201C (und umgekehrt). Abwesende werden nicht mitgezählt.",
+    "de-leicht": "Wenn die meisten Mitglieder einer Partei mit Ja stimmen, zählt das als Ja für die ganze Partei. Wer nicht da war, wird nicht gezählt.",
+    en: "The faction result is calculated as a majority vote: if the majority of faction members vote Yes, the faction result counts as 'Yes' (and vice versa). Absent members are not counted.",
+  },
+  "methodik.trafficLight": {
+    de: "5. Ampelsystem",
+    "de-leicht": "5. Farben-System",
+    en: "5. Traffic Light System",
+  },
+  "methodik.color": {
+    de: "Farbe",
+    "de-leicht": "Farbe",
+    en: "Color",
+  },
+  "methodik.score": {
+    de: "Score",
+    "de-leicht": "Ergebnis",
+    en: "Score",
+  },
+  "methodik.meaning": {
+    de: "Bedeutung",
+    "de-leicht": "Bedeutung",
+    en: "Meaning",
+  },
+  "methodik.greenLabel": {
+    de: "Grün",
+    "de-leicht": "Grün",
+    en: "Green",
+  },
+  "methodik.greenMeaning": {
+    de: "Partei stimmt überwiegend gemäß Wahlprogramm ab",
+    "de-leicht": "Partei stimmt meistens so ab wie versprochen",
+    en: "Party mostly votes in line with election program",
+  },
+  "methodik.yellowLabel": {
+    de: "Gelb",
+    "de-leicht": "Gelb",
+    en: "Yellow",
+  },
+  "methodik.yellowMeaning": {
+    de: "Teilweise Abweichungen vom Wahlprogramm",
+    "de-leicht": "Manchmal so wie versprochen, manchmal nicht",
+    en: "Partial deviations from the election program",
+  },
+  "methodik.redLabel": {
+    de: "Rot",
+    "de-leicht": "Rot",
+    en: "Red",
+  },
+  "methodik.redMeaning": {
+    de: "Deutliche Abweichungen vom Wahlprogramm",
+    "de-leicht": "Oft anders als versprochen",
+    en: "Significant deviations from the election program",
+  },
+  "methodik.confidenceThreshold": {
+    de: "6. Konfidenz-Schwelle",
+    "de-leicht": "6. Sicherheits-Schwelle",
+    en: "6. Confidence Threshold",
+  },
+  "methodik.confidenceThresholdText": {
+    de: "Jede KI-Analyse wird mit einem Konfidenzwert versehen (0\u2013100%). Nur Analysen mit einer Konfidenz von mindestens 80% werden in die Score-Berechnung einbezogen und öffentlich angezeigt. Analysen unter diesem Schwellenwert werden als \u201EBewertung unsicher\u201C markiert.",
+    "de-leicht": "Der Computer sagt auch, wie sicher er sich ist. Nur wenn er sich zu mindestens 80% sicher ist, zeigen wir das Ergebnis.",
+    en: "Each AI analysis is given a confidence value (0\u2013100%). Only analyses with a confidence of at least 80% are included in score calculations and publicly displayed. Analyses below this threshold are marked as 'assessment uncertain'.",
+  },
+  "methodik.limitations": {
+    de: "7. Einschränkungen",
+    "de-leicht": "7. Grenzen",
+    en: "7. Limitations",
+  },
+  "methodik.limitation1": {
+    de: "Die KI-Analyse kann Fehleinschätzungen enthalten \u2014 jede Bewertung wird daher mit Begründung und Quellenverweisen veröffentlicht",
+    "de-leicht": "Der Computer kann Fehler machen \u2014 deshalb zeigen wir immer, warum er so entschieden hat",
+    en: "The AI analysis can contain errors \u2014 every assessment is therefore published with reasoning and source references",
+  },
+  "methodik.limitation2": {
+    de: "Nicht jede Abstimmung lässt sich einem Wahlversprechen zuordnen \u2014 viele Abstimmungen betreffen technische oder prozedurale Fragen",
+    "de-leicht": "Nicht jede Abstimmung passt zu einem Versprechen \u2014 viele Abstimmungen betreffen technische Fragen",
+    en: "Not every vote can be matched to an election promise \u2014 many votes concern technical or procedural matters",
+  },
+  "methodik.limitation3": {
+    de: "Wahlprogramme enthalten oft allgemeine Formulierungen, die unterschiedlich interpretiert werden können",
+    "de-leicht": "Wahlprogramme sind oft nicht genau genug geschrieben",
+    en: "Election programs often contain general wording that can be interpreted differently",
+  },
+  "methodik.limitation4": {
+    de: "Die Datenverfügbarkeit variiert je nach Landtag",
+    "de-leicht": "Nicht alle Landtage haben die gleichen Daten",
+    en: "Data availability varies by state parliament",
+  },
+  "methodik.aiModel": {
+    de: "8. KI-Modell",
+    "de-leicht": "8. Computer-Modell",
+    en: "8. AI Model",
+  },
+  "methodik.aiModelText": {
+    de: "Für die Analyse wird Claude Sonnet von Anthropic verwendet. Alle Parteien werden mit identischen Prompt-Templates bewertet, um Neutralität zu gewährleisten. Die Prompts sind im",
+    "de-leicht": "Wir benutzen Claude Sonnet von Anthropic. Alle Parteien werden gleich behandelt. Wie das funktioniert, kann man im",
+    en: "The analysis uses Claude Sonnet by Anthropic. All parties are evaluated with identical prompt templates to ensure neutrality. The prompts are viewable in the",
+  },
+  "methodik.aiModelAfter": {
+    de: "einsehbar.",
+    "de-leicht": "nachlesen.",
+    en: ".",
+  },
+  "methodik.sourceCode": {
+    de: "Quellcode",
+    "de-leicht": "Quellcode",
+    en: "source code",
+  },
 };
 
 // Simplified FAQ answers for Leichte Sprache and English

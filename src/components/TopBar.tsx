@@ -20,21 +20,21 @@ export function TopBar() {
           <button
             onClick={() => setFontSize(14)}
             className={`px-1.5 ${fontSize === 14 ? "text-blue-700 font-semibold" : "text-blue-600"} hover:underline`}
-            title="Kleine Schrift"
+            title={t("topbar.smallFont")}
           >
             <span className="text-[11px]">A</span>
           </button>
           <button
             onClick={() => setFontSize(16)}
             className={`px-1.5 ${fontSize === 16 ? "text-blue-700 font-semibold" : "text-blue-600"} hover:underline`}
-            title="Normale Schrift"
+            title={t("topbar.normalFont")}
           >
             <span className="text-[14px]">A</span>
           </button>
           <button
             onClick={() => setFontSize(20)}
             className={`px-1.5 ${fontSize === 20 ? "text-blue-700 font-semibold" : "text-blue-600"} hover:underline`}
-            title="Große Schrift"
+            title={t("topbar.largeFont")}
           >
             <span className="text-[18px]">A</span>
           </button>
@@ -54,8 +54,8 @@ export function TopBar() {
           } hover:underline`}
         >
           {language === "de-leicht"
-            ? "\u2713 Leichte Sprache"
-            : "Leichte Sprache"}
+            ? `\u2713 ${t("topbar.easyLanguage")}`
+            : t("topbar.easyLanguage")}
         </button>
 
         <span className="text-gray-300">|</span>

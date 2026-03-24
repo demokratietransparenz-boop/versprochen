@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface MemberDeviation {
   id: string;
@@ -9,10 +12,12 @@ interface MemberDeviation {
 }
 
 export function MemberDeviationTable({ members }: { members: MemberDeviation[] }) {
+  const { t } = useLanguage();
+
   return (
     <div>
       <h3 className="text-[15px] font-semibold text-gray-900 mb-3">
-        Abgeordnete mit den meisten Abweichungen
+        {t("memberDeviation.title")}
       </h3>
       <table className="w-full text-[13px]">
         <tbody>
@@ -24,7 +29,7 @@ export function MemberDeviationTable({ members }: { members: MemberDeviation[] }
                 </Link>
                 {m.constituency && (
                   <span className="text-gray-400 text-[11px] ml-1">
-                    · Wahlkreis {m.constituency}
+                    · {t("memberDeviation.constituency")} {m.constituency}
                   </span>
                 )}
                 {m.legislature && (
@@ -43,7 +48,7 @@ export function MemberDeviationTable({ members }: { members: MemberDeviation[] }
                         : "text-gray-500"
                   }`}
                 >
-                  {m.deviations} Abweichungen
+                  {m.deviations} {t("memberDeviation.deviations")}
                 </span>
               </td>
             </tr>

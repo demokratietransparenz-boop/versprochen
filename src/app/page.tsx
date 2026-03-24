@@ -4,6 +4,7 @@ import { ParliamentTabs } from "@/components/ParliamentTabs";
 import { PartyScoreTable } from "@/components/PartyScoreTable";
 import { DeviationFeed } from "@/components/DeviationFeed";
 import { HeroSection } from "@/components/HeroSection";
+import { PeriodSummary } from "@/components/PeriodSummary";
 
 export const dynamic = "force-dynamic";
 
@@ -137,9 +138,7 @@ export default async function DashboardPage({
   })) ?? [];
 
   const activeParlData = parliaments?.find((p) => p.id === activeParliament);
-  const periodLabel = isAll
-    ? "Alle Wahlperioden"
-    : activeParlData?.legislature ?? "";
+  const periodLabel = activeParlData?.legislature ?? null;
 
   const { count: totalMembers } = await supabase
     .from("members")
@@ -169,12 +168,12 @@ export default async function DashboardPage({
         activeId={activeParliament}
       />
 
-      <div className="mt-4 text-xs text-gray-400">
-        {periodLabel} · {voteCount} Abstimmungen analysiert
-        {isAll && parliaments
-          ? ` · ${parliaments.length} Wahlperioden`
-          : ""}
-      </div>
+      <PeriodSummary
+        periodLabel={periodLabel}
+        voteCount={voteCount}
+        parliamentCount={isAll && parliaments ? parliaments.length : null}
+        isAll={isAll}
+      />
 
       <div className="mt-2">
         <PartyScoreTable parties={formattedParties} voteCount={voteCount} />

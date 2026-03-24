@@ -13,16 +13,24 @@ interface EconomicScenario {
   verdict: "positiv" | "gemischt" | "negativ";
 }
 interface PartyProfile {
-  summary: string;
-  positions: string;
+  summary: LangText;
+  positions: LangText;
   vision: LangText;
   economicImpact: LangText;
   scenarios: EconomicScenario[];
 }
 const PARTY_PROFILES: Record<string, PartyProfile> = {
   "SPD": {
-    summary: "Die Sozialdemokratische Partei Deutschlands ist eine der ältesten Parteien Deutschlands. Sie positioniert sich als Mitte-Links-Partei mit Schwerpunkten auf sozialer Gerechtigkeit, Arbeitnehmerrechten und einem starken Sozialstaat.",
-    positions: "Kernthemen sind Mindestlohn, bezahlbares Wohnen, Klimaschutz mit sozialer Abfederung, Stärkung des öffentlichen Gesundheitswesens und europäische Integration.",
+    summary: {
+      de: "Die Sozialdemokratische Partei Deutschlands ist eine der ältesten Parteien Deutschlands. Sie positioniert sich als Mitte-Links-Partei mit Schwerpunkten auf sozialer Gerechtigkeit, Arbeitnehmerrechten und einem starken Sozialstaat.",
+      "de-leicht": "Die SPD ist eine der ältesten Parteien in Deutschland. Sie setzt sich für faire Löhne, gute Arbeitsbedingungen und Hilfe für alle Menschen ein.",
+      en: "The Social Democratic Party of Germany is one of the oldest parties in Germany. It positions itself as a center-left party focused on social justice, workers' rights, and a strong welfare state.",
+    },
+    positions: {
+      de: "Kernthemen sind Mindestlohn, bezahlbares Wohnen, Klimaschutz mit sozialer Abfederung, Stärkung des öffentlichen Gesundheitswesens und europäische Integration.",
+      "de-leicht": "Wichtige Themen: mehr Lohn, günstige Wohnungen, Klimaschutz, gute Krankenhäuser und Zusammenarbeit in Europa.",
+      en: "Key issues are minimum wage, affordable housing, climate protection with social cushioning, strengthening public healthcare, and European integration.",
+    },
     vision: {
       de: "Die SPD steht für ein Deutschland, in dem der Sozialstaat Menschen in jeder Lebenslage absichert. Wer diese Partei wählt, unterstützt eine Zukunft mit höherem Mindestlohn, bezahlbaren Mieten, einem starken öffentlichen Gesundheitssystem und Klimaschutz, der niemanden zurücklässt. Die SPD setzt auf europäische Zusammenarbeit, Investitionen in Bildung und Infrastruktur, und eine Gesellschaft, in der Arbeit sich lohnt und Wohlstand gerecht verteilt wird.",
       "de-leicht": "Die SPD möchte, dass alle Menschen gut leben können. Sie will: mehr Lohn für Arbeiter, günstigere Wohnungen, gute Krankenhäuser für alle, und Klimaschutz, der fair ist. Sie findet Europa wichtig und will, dass Reiche mehr teilen.",
@@ -43,8 +51,16 @@ const PARTY_PROFILES: Record<string, PartyProfile> = {
     ],
   },
   "CDU/CSU": {
-    summary: "Die Christlich Demokratische Union und die Christlich-Soziale Union bilden eine Fraktionsgemeinschaft im Bundestag. Sie positioniert sich als bürgerlich-konservative Volkspartei der politischen Mitte.",
-    positions: "Kernthemen sind wirtschaftliche Stabilität, innere Sicherheit, eine restriktivere Migrationspolitik, Stärkung der Bundeswehr und die Förderung von Familien und Mittelstand.",
+    summary: {
+      de: "Die Christlich Demokratische Union und die Christlich-Soziale Union bilden eine Fraktionsgemeinschaft im Bundestag. Sie positioniert sich als bürgerlich-konservative Volkspartei der politischen Mitte.",
+      "de-leicht": "CDU und CSU arbeiten im Bundestag zusammen. Sie sind eine konservative Partei in der politischen Mitte.",
+      en: "The Christian Democratic Union and the Christian Social Union form a parliamentary group in the Bundestag. It positions itself as a center-right people's party.",
+    },
+    positions: {
+      de: "Kernthemen sind wirtschaftliche Stabilität, innere Sicherheit, eine restriktivere Migrationspolitik, Stärkung der Bundeswehr und die Förderung von Familien und Mittelstand.",
+      "de-leicht": "Wichtige Themen: starke Wirtschaft, Sicherheit, weniger Einwanderung, starke Armee und Hilfe für Familien und kleine Firmen.",
+      en: "Key issues are economic stability, internal security, more restrictive migration policy, strengthening the military, and supporting families and small businesses.",
+    },
     vision: {
       de: "Die CDU/CSU steht für ein wirtschaftlich starkes und sicheres Deutschland. Wer diese Partei wählt, unterstützt eine Zukunft mit niedrigeren Steuern, weniger Bürokratie, einer starken Bundeswehr und kontrollierter Migration. Die Union setzt auf Eigenverantwortung, Förderung des Mittelstands, traditionelle Familienwerte und solide Staatsfinanzen. Sie will Deutschland als führende Wirtschaftsnation in einem starken Europa erhalten.",
       "de-leicht": "Die CDU/CSU will, dass Deutschland wirtschaftlich stark und sicher ist. Sie will: weniger Steuern, weniger Bürokratie, eine starke Armee und weniger Einwanderung. Familien und kleine Firmen sollen unterstützt werden. Der Staat soll nicht zu viel Geld ausgeben.",
@@ -65,8 +81,16 @@ const PARTY_PROFILES: Record<string, PartyProfile> = {
     ],
   },
   "GRÜNE": {
-    summary: "Bündnis 90/Die Grünen sind aus der Umwelt- und Friedensbewegung hervorgegangen. Die Partei positioniert sich als ökologisch-progressive Kraft im Mitte-Links-Spektrum.",
-    positions: "Kernthemen sind Klimaschutz und Energiewende, soziale Gerechtigkeit, Bürgerrechte, europäische Integration und eine wertegeleitete Außenpolitik.",
+    summary: {
+      de: "Bündnis 90/Die Grünen sind aus der Umwelt- und Friedensbewegung hervorgegangen. Die Partei positioniert sich als ökologisch-progressive Kraft im Mitte-Links-Spektrum.",
+      "de-leicht": "Die Grünen kommen aus der Umwelt- und Friedensbewegung. Sie setzen sich für Klimaschutz und Gerechtigkeit ein.",
+      en: "Alliance 90/The Greens emerged from the environmental and peace movements. The party positions itself as an ecological-progressive force on the center-left.",
+    },
+    positions: {
+      de: "Kernthemen sind Klimaschutz und Energiewende, soziale Gerechtigkeit, Bürgerrechte, europäische Integration und eine wertegeleitete Außenpolitik.",
+      "de-leicht": "Wichtige Themen: Klimaschutz, saubere Energie, Gerechtigkeit, Bürgerrechte und Zusammenarbeit mit anderen Ländern.",
+      en: "Key issues are climate protection and the energy transition, social justice, civil rights, European integration, and a values-based foreign policy.",
+    },
     vision: {
       de: "Die Grünen stehen für ein klimaneutrales, gerechtes und weltoffenes Deutschland. Wer diese Partei wählt, unterstützt eine Zukunft mit konsequentem Klimaschutz, 100% erneuerbaren Energien, nachhaltiger Wirtschaft und starken Bürgerrechten. Die Grünen setzen auf eine ökologische Transformation, die neue Arbeitsplätze schafft, eine offene und diverse Gesellschaft, und eine europäische Außenpolitik, die auf Werte und Multilateralismus setzt.",
       "de-leicht": "Die Grünen wollen, dass Deutschland das Klima schützt. Sie wollen: nur noch saubere Energie, eine Wirtschaft die der Natur nicht schadet, gleiche Rechte für alle Menschen, und Zusammenarbeit mit anderen Ländern. Sie finden, dass Klimaschutz auch neue Jobs bringen kann.",
@@ -87,8 +111,16 @@ const PARTY_PROFILES: Record<string, PartyProfile> = {
     ],
   },
   "FDP": {
-    summary: "Die Freie Demokratische Partei versteht sich als liberale Partei, die individuelle Freiheit, Eigenverantwortung und Marktwirtschaft in den Mittelpunkt stellt.",
-    positions: "Kernthemen sind Steuersenkungen, Bürokratieabbau, Digitalisierung, Bildung als Aufstiegsversprechen und die Einhaltung der Schuldenbremse.",
+    summary: {
+      de: "Die Freie Demokratische Partei versteht sich als liberale Partei, die individuelle Freiheit, Eigenverantwortung und Marktwirtschaft in den Mittelpunkt stellt.",
+      "de-leicht": "Die FDP ist eine liberale Partei. Sie will mehr Freiheit für Menschen und Firmen und weniger Einmischung vom Staat.",
+      en: "The Free Democratic Party sees itself as a liberal party that puts individual freedom, personal responsibility, and the free market at its center.",
+    },
+    positions: {
+      de: "Kernthemen sind Steuersenkungen, Bürokratieabbau, Digitalisierung, Bildung als Aufstiegsversprechen und die Einhaltung der Schuldenbremse.",
+      "de-leicht": "Wichtige Themen: weniger Steuern, weniger Bürokratie, besseres Internet, gute Bildung und kein neues Geld leihen.",
+      en: "Key issues are tax cuts, reducing bureaucracy, digitalization, education as a promise of social mobility, and maintaining the debt brake.",
+    },
     vision: {
       de: "Die FDP steht für ein Deutschland der individuellen Freiheit und wirtschaftlichen Dynamik. Wer diese Partei wählt, unterstützt eine Zukunft mit deutlich niedrigeren Steuern, massivem Bürokratieabbau, einer digitalen Verwaltung und Bildung als Aufstiegsmotor. Die FDP setzt auf Technologieoffenheit beim Klimaschutz, die Schuldenbremse als Garant solider Finanzen, und eine Gesellschaft, in der der Staat sich zurückhält und Bürger selbst entscheiden.",
       "de-leicht": "Die FDP will, dass Menschen möglichst frei entscheiden können. Sie will: weniger Steuern, weniger Regeln, besseres Internet und Digitalisierung, gute Schulen für alle. Der Staat soll nicht zu viel bestimmen. Beim Klimaschutz soll Technik helfen, nicht Verbote.",
@@ -109,8 +141,16 @@ const PARTY_PROFILES: Record<string, PartyProfile> = {
     ],
   },
   "AfD": {
-    summary: "Die Alternative für Deutschland positioniert sich als rechtspopulistische bis rechtskonservative Partei. Sie entstand 2013 zunächst als EU-kritische Partei und verschob ihren Fokus zunehmend auf Migrationspolitik.",
-    positions: "Kernthemen sind eine restriktive Migrationspolitik, EU-Skepsis, Stärkung nationaler Souveränität, Ablehnung der Energiewende in ihrer jetzigen Form und konservative Gesellschaftspolitik.",
+    summary: {
+      de: "Die Alternative für Deutschland positioniert sich als rechtspopulistische bis rechtskonservative Partei. Sie entstand 2013 zunächst als EU-kritische Partei und verschob ihren Fokus zunehmend auf Migrationspolitik.",
+      "de-leicht": "Die AfD ist eine rechte Partei. Sie wurde 2013 gegründet und setzt sich vor allem gegen Einwanderung und die EU ein.",
+      en: "The Alternative for Germany positions itself as a right-wing populist to right-wing conservative party. It was founded in 2013 initially as an EU-critical party and increasingly shifted its focus to migration policy.",
+    },
+    positions: {
+      de: "Kernthemen sind eine restriktive Migrationspolitik, EU-Skepsis, Stärkung nationaler Souveränität, Ablehnung der Energiewende in ihrer jetzigen Form und konservative Gesellschaftspolitik.",
+      "de-leicht": "Wichtige Themen: weniger Einwanderung, Kritik an der EU, mehr Eigenständigkeit für Deutschland, gegen die jetzige Energiewende und konservative Werte.",
+      en: "Key issues are restrictive migration policy, EU skepticism, strengthening national sovereignty, rejection of the current energy transition, and conservative social policy.",
+    },
     vision: {
       de: "Die AfD steht für ein Deutschland, das nationale Souveränität und kulturelle Identität in den Vordergrund stellt. Wer diese Partei wählt, unterstützt eine Zukunft mit stark begrenzter Einwanderung, Rückführung der EU-Kompetenzen an Nationalstaaten, Beendigung der aktuellen Energiewende zugunsten konventioneller Energiequellen und eine konservative Gesellschaftspolitik. Die AfD setzt auf Grenzschutz, direkte Demokratie und Stärkung der nationalen Eigenständigkeit.",
       "de-leicht": "Die AfD will, dass Deutschland selbst mehr bestimmt. Sie will: viel weniger Einwanderung, weniger Macht für die EU, keine Windräder und Solarpanels wie jetzt, und eine Gesellschaft mit traditionellen Werten. Die Grenzen sollen besser geschützt werden.",
@@ -131,8 +171,16 @@ const PARTY_PROFILES: Record<string, PartyProfile> = {
     ],
   },
   "LINKE": {
-    summary: "Die Linke ist eine demokratisch-sozialistische Partei, die aus der PDS und der WASG hervorgegangen ist. Sie positioniert sich als linke Opposition mit Fokus auf soziale Gerechtigkeit.",
-    positions: "Kernthemen sind Umverteilung von Vermögen, Verstaatlichung von Schlüsselindustrien, antimilitaristische Außenpolitik, Mietpreisbremsen und die Stärkung öffentlicher Daseinsvorsorge.",
+    summary: {
+      de: "Die Linke ist eine demokratisch-sozialistische Partei, die aus der PDS und der WASG hervorgegangen ist. Sie positioniert sich als linke Opposition mit Fokus auf soziale Gerechtigkeit.",
+      "de-leicht": "Die Linke ist eine sozialistische Partei. Sie setzt sich für weniger Unterschied zwischen Arm und Reich ein.",
+      en: "The Left Party is a democratic socialist party that emerged from the PDS and the WASG. It positions itself as a left-wing opposition focused on social justice.",
+    },
+    positions: {
+      de: "Kernthemen sind Umverteilung von Vermögen, Verstaatlichung von Schlüsselindustrien, antimilitaristische Außenpolitik, Mietpreisbremsen und die Stärkung öffentlicher Daseinsvorsorge.",
+      "de-leicht": "Wichtige Themen: Reiche sollen mehr teilen, wichtige Firmen sollen dem Staat gehören, kein Militär im Ausland, günstige Mieten und gute öffentliche Versorgung.",
+      en: "Key issues are wealth redistribution, nationalization of key industries, anti-militarist foreign policy, rent controls, and strengthening public services.",
+    },
     vision: {
       de: "Die Linke steht für ein Deutschland mit deutlich weniger sozialer Ungleichheit. Wer diese Partei wählt, unterstützt eine Zukunft mit Vermögensumverteilung, Verstaatlichung von Wohnungskonzernen und Schlüsselindustrien, einem Mietendeckel, gebührenfreier Bildung und einem Ende aller Bundeswehr-Auslandseinsätze. Die Linke setzt auf eine Gesellschaft, in der Grundbedürfnisse wie Wohnen, Gesundheit und Mobilität nicht dem Markt überlassen werden.",
       "de-leicht": "Die Linke will, dass es weniger Unterschied zwischen Arm und Reich gibt. Sie will: Reiche sollen mehr bezahlen, Mieten sollen billiger werden, große Firmen sollen dem Staat gehören, Schule und Uni sollen kostenlos sein, und die Bundeswehr soll nicht im Ausland kämpfen.",
@@ -153,8 +201,16 @@ const PARTY_PROFILES: Record<string, PartyProfile> = {
     ],
   },
   "BSW": {
-    summary: "Das Bündnis Sahra Wagenknecht wurde 2024 gegründet. Die Partei verbindet wirtschaftlich linke Positionen mit konservativen gesellschaftspolitischen Ansichten.",
-    positions: "Kernthemen sind soziale Gerechtigkeit, eine restriktivere Migrationspolitik, diplomatische Lösungen im Ukraine-Konflikt, Ablehnung von Waffenlieferungen und Kritik an den etablierten Parteien.",
+    summary: {
+      de: "Das Bündnis Sahra Wagenknecht wurde 2024 gegründet. Die Partei verbindet wirtschaftlich linke Positionen mit konservativen gesellschaftspolitischen Ansichten.",
+      "de-leicht": "Das BSW wurde 2024 gegründet. Es will bessere Löhne und mehr Soziales, ist aber bei Einwanderung und Gesellschaft eher konservativ.",
+      en: "The Sahra Wagenknecht Alliance was founded in 2024. The party combines economically left positions with conservative social policy views.",
+    },
+    positions: {
+      de: "Kernthemen sind soziale Gerechtigkeit, eine restriktivere Migrationspolitik, diplomatische Lösungen im Ukraine-Konflikt, Ablehnung von Waffenlieferungen und Kritik an den etablierten Parteien.",
+      "de-leicht": "Wichtige Themen: soziale Gerechtigkeit, weniger Einwanderung, Frieden durch Verhandlungen, keine Waffenlieferungen und Kritik an den großen Parteien.",
+      en: "Key issues are social justice, more restrictive migration policy, diplomatic solutions in the Ukraine conflict, rejection of arms deliveries, and criticism of established parties.",
+    },
     vision: {
       de: "Das BSW steht für ein Deutschland, das wirtschaftlich links und gesellschaftspolitisch konservativ denkt. Wer diese Partei wählt, unterstützt eine Zukunft mit höheren Löhnen und besserer Sozialpolitik, aber auch mit kontrollierter Migration und einer Außenpolitik, die auf Diplomatie statt Waffenlieferungen setzt. Das BSW will den Ukraine-Konflikt durch Verhandlungen beenden, Millionäre stärker besteuern und gleichzeitig gesellschaftliche Traditionen bewahren.",
       "de-leicht": "Das BSW will bessere Löhne und mehr Soziales, aber auch weniger Einwanderung. Es will keine Waffen an die Ukraine liefern, sondern Frieden durch Verhandlungen. Reiche sollen mehr Steuern zahlen. Es kritisiert die anderen großen Parteien.",
@@ -200,7 +256,7 @@ export default async function ParteiPage({
       .select("id, name, legislature")
       .neq("data_status", "unavailable");
     parliamentIds = allParliaments?.map((p) => p.id) ?? [];
-    parliament = { id: "all", name: "Bundestag", legislature: "Alle Wahlperioden" };
+    parliament = { id: "all", name: "Bundestag", legislature: "" };
   } else {
     const { data: p } = await supabase
       .from("parliaments")
@@ -387,7 +443,7 @@ export default async function ParteiPage({
   const strongTopics = topicScoresFormatted.filter((t) => t.score >= 70).map((t) => t.category);
   const weakTopics = topicScoresFormatted.filter((t) => t.score < 40).map((t) => t.category);
 
-  const breadcrumbLabel = isAll ? "Alle Wahlperioden" : (parliament.state ?? parliament.name);
+  const breadcrumbLabel = isAll ? "" : (parliament.state ?? parliament.name);
 
   return (
     <ParteiClient
