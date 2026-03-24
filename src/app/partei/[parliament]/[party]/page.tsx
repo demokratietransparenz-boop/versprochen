@@ -56,41 +56,58 @@ export default async function ParteiPage({
     .eq("party_id", party.id)
     .eq("parliament_id", parliament.id);
 
-  // Get members of THIS party with their scores, sorted by lowest score
+  // Get members of THIS party
   const { data: partyMembers } = await supabase
     .from("members")
     .select("id, name, constituency")
     .eq("party_id", party.id)
     .eq("parliament_id", parliament.id);
 
-  const memberIds = partyMembers?.map((m) => m.id) ?? [];
-  const { data: memberScores } = memberIds.length > 0
-    ? await supabase
-        .from("scores")
-        .select("member_id, score")
-        .eq("scope_type", "member")
-        .eq("parliament_id", parliament.id)
-        .eq("period", overallScore?.period ?? "")
-        .in("member_id", memberIds)
-        .order("score", { ascending: true })
-        .limit(20)
-    : { data: [] };
-
-  const memberScoreMap = new Map(memberScores?.map((s) => [s.member_id, s.score]) ?? []);
   const memberMap = new Map(partyMembers?.map((m) => [m.id, m]) ?? []);
 
-  const filteredMembers = (memberScores ?? [])
-    .filter((s) => s.score < 100)
-    .map((s) => {
-      const member = memberMap.get(s.member_id);
+  // Get all analyses for this party to count actual deviations per member
+  const { data: partyAnalyses } = await supabase
+    .from("analyses")
+    .select("vote_id, alignment, expected_vote")
+    .eq("party_id", party.id)
+    .gte("confidence", 0.8);
+
+  // Get vote_results for all party members to count real deviations
+  const memberIds = partyMembers?.map((m) => m.id) ?? [];
+  const { data: allVoteResults } = memberIds.length > 0
+    ? await supabase
+        .from("vote_results")
+        .select("member_id, vote_id, result")
+        .in("member_id", memberIds)
+    : { data: [] };
+
+  // Count deviations per member: where member voted differently than expected
+  const analysisMap = new Map(partyAnalyses?.map((a) => [a.vote_id, a]) ?? []);
+  const memberDeviations: Record<string, number> = {};
+
+  for (const vr of allVoteResults ?? []) {
+    const analysis = analysisMap.get(vr.vote_id);
+    if (!analysis || vr.result === "abwesend") continue;
+    const votesMatch = vr.result.toLowerCase() === analysis.expected_vote?.toLowerCase();
+    const effectiveAlignment = votesMatch ? Math.max(analysis.alignment, 0.7) : analysis.alignment;
+    if (effectiveAlignment < 0.5) {
+      memberDeviations[vr.member_id] = (memberDeviations[vr.member_id] || 0) + 1;
+    }
+  }
+
+  const filteredMembers = Object.entries(memberDeviations)
+    .filter(([_, count]) => count > 0)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 20)
+    .map(([memberId, deviations]) => {
+      const member = memberMap.get(memberId);
       return {
-        id: s.member_id,
+        id: memberId,
         name: member?.name ?? "Unbekannt",
         constituency: member?.constituency ?? null,
-        deviations: Math.round(((100 - s.score) / 100) * (Object.keys(memberScoreMap).length || 10)),
+        deviations,
       };
-    })
-    .filter((m) => m.deviations > 0);
+    });
 
   return (
     <div>
