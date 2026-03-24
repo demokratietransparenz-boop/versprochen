@@ -49,7 +49,18 @@ interface ParteiClientProps {
   weakTopics: string[];
   reliableMembers: ReliableMember[];
   deviatingMembers: DeviatingMember[];
-  profile: { summary: string; positions: string; vision: { de: string; en: string; "de-leicht": string }; economicImpact: { de: string; en: string; "de-leicht": string } } | null;
+  profile: {
+    summary: string;
+    positions: string;
+    vision: { de: string; en: string; "de-leicht": string };
+    economicImpact: { de: string; en: string; "de-leicht": string };
+    scenarios: Array<{
+      group: { de: string; en: string; "de-leicht": string };
+      icon: string;
+      impact: { de: string; en: string; "de-leicht": string };
+      verdict: "positiv" | "gemischt" | "negativ";
+    }>;
+  } | null;
 }
 
 export function ParteiClient({
@@ -155,7 +166,47 @@ export function ParteiClient({
           <p className="text-[13px] text-gray-700 leading-relaxed mb-3">
             {profile.economicImpact[language]}
           </p>
-          <p className="text-[11px] text-amber-700 italic">
+          {/* Scenarios by group */}
+          {profile.scenarios && profile.scenarios.length > 0 && (
+            <div className="mt-4 pt-3 border-t border-amber-200">
+              <h4 className="text-[13px] font-semibold text-gray-900 mb-3">
+                {language === "en"
+                  ? "Impact by group — what does this mean for you?"
+                  : language === "de-leicht"
+                    ? "Was bedeutet das für dich?"
+                    : "Auswirkungen nach Berufsgruppe — was bedeutet das für Sie?"}
+              </h4>
+              <div className="space-y-2">
+                {profile.scenarios.map((s, i) => (
+                  <details key={i} className="group bg-white rounded border border-amber-100">
+                    <summary className="cursor-pointer px-4 py-2.5 flex items-center justify-between list-none">
+                      <span className="flex items-center gap-2 text-[13px] font-medium text-gray-900">
+                        <span className="text-[16px]">{s.icon}</span>
+                        {s.group[language]}
+                      </span>
+                      <span className="flex items-center gap-2">
+                        <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${
+                          s.verdict === "positiv" ? "bg-green-100 text-green-800" :
+                          s.verdict === "negativ" ? "bg-red-100 text-red-800" :
+                          "bg-yellow-100 text-yellow-800"
+                        }`}>
+                          {language === "en"
+                            ? s.verdict === "positiv" ? "positive" : s.verdict === "negativ" ? "negative" : "mixed"
+                            : s.verdict === "positiv" ? "positiv" : s.verdict === "negativ" ? "negativ" : "gemischt"}
+                        </span>
+                        <span className="text-gray-400 group-open:rotate-180 transition-transform text-[10px]">▼</span>
+                      </span>
+                    </summary>
+                    <div className="px-4 pb-3 text-[12px] text-gray-600 leading-relaxed border-t border-amber-50 pt-2">
+                      {s.impact[language]}
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <p className="text-[11px] text-amber-700 italic mt-3">
             {language === "en"
               ? "🤖 AI-generated assessment based on the party's program positions and established economic research. This is not a prediction but an informed estimate of likely tendencies."
               : language === "de-leicht"
