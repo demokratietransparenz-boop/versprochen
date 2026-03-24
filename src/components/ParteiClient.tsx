@@ -49,7 +49,7 @@ interface ParteiClientProps {
   weakTopics: string[];
   reliableMembers: ReliableMember[];
   deviatingMembers: DeviatingMember[];
-  profile: { summary: string; positions: string } | null;
+  profile: { summary: string; positions: string; vision: { de: string; en: string; "de-leicht": string } } | null;
 }
 
 export function ParteiClient({
@@ -122,6 +122,22 @@ export function ParteiClient({
           <div className="text-[11px] text-gray-400">{t("party.overallScore")}</div>
         </div>
       </div>
+
+      {/* Executive Summary / Zukunftsvision */}
+      {profile?.vision && (
+        <div className="bg-gradient-to-br from-[#0d1b3e] to-[#1a3a6b] text-white rounded-lg p-5 mb-6">
+          <h3 className="text-[15px] font-semibold mb-2">
+            {language === "en"
+              ? `If you vote for ${partyName}, you support this vision:`
+              : language === "de-leicht"
+                ? `Wenn du ${partyName} wählst, unterstützt du das:`
+                : `Wenn Sie ${partyName} wählen, unterstützen Sie diese Zukunftsvision:`}
+          </h3>
+          <p className="text-[13px] text-blue-100 leading-relaxed">
+            {profile.vision[language]}
+          </p>
+        </div>
+      )}
 
       {/* Party Profile */}
       {profile && (
