@@ -1,10 +1,6 @@
 import { supabase } from "@/lib/supabase";
-import { Breadcrumb } from "@/components/Breadcrumb";
-import { TopicScoreTable } from "@/components/TopicScoreTable";
-import { ScoreText } from "@/components/TrafficLight";
-import { PARTY_COLORS } from "@/lib/constants";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { ParteiClient } from "@/components/ParteiClient";
 
 export const dynamic = "force-dynamic";
 
@@ -84,8 +80,6 @@ export default async function ParteiPage({
   let deviationCount = 0;
 
   {
-    // Unified scoring: same logic for both "all" and single parliament
-    // Step 1: Get raw analyses (no join, ensures all rows returned)
     const analysisQuery = supabase
       .from("analyses")
       .select("alignment, vote_id, confidence")
@@ -95,7 +89,6 @@ export default async function ParteiPage({
 
     const { data: rawAnalyses } = await analysisQuery;
 
-    // Step 2: If filtering by parliament, get vote_ids for this parliament
     let filteredAnalyses = rawAnalyses ?? [];
     if (!isAll) {
       const { data: parlVotes } = await supabase
@@ -116,7 +109,6 @@ export default async function ParteiPage({
       deviationCount = filteredAnalyses.filter((a) => a.alignment < 0.5).length;
     }
 
-    // Step 3: Get topic categories for topic breakdown
     const voteIds = filteredAnalyses.map((a) => a.vote_id);
     if (voteIds.length > 0) {
       const { data: voteTopics } = await supabase
@@ -142,8 +134,6 @@ export default async function ParteiPage({
         .sort((a, b) => b.score - a.score);
     }
   }
-
-  // Old else block removed — unified scoring above handles both "all" and single parliament
 
   // Get members
   let membersQuery = supabase
@@ -251,193 +241,34 @@ export default async function ParteiPage({
     });
 
   // Party profile data
-  const profile = PARTY_PROFILES[party.name];
+  const profile = PARTY_PROFILES[party.name] ?? null;
 
-  // Generate neutral assessment based on data
+  // Generate strong/weak topics
   const strongTopics = topicScoresFormatted.filter((t) => t.score >= 70).map((t) => t.category);
   const weakTopics = topicScoresFormatted.filter((t) => t.score < 40).map((t) => t.category);
-
-  let assessment = "";
-  if (overallScoreValue >= 70) {
-    assessment = `Die ${party.name} zeigt eine hohe Übereinstimmung zwischen Wahlprogramm und Abstimmungsverhalten. In ${totalAnalyses} analysierten Abstimmungen wurde ${consistentCount} Mal im Einklang mit dem Wahlprogramm gestimmt.`;
-  } else if (overallScoreValue >= 50) {
-    assessment = `Die ${party.name} zeigt eine gemischte Bilanz. In ${totalAnalyses} analysierten Abstimmungen stimmt das Verhalten in etwa der Hälfte der Fälle mit dem Wahlprogramm überein.`;
-  } else {
-    assessment = `Die ${party.name} weicht in vielen Fällen von ihrem Wahlprogramm ab. Von ${totalAnalyses} analysierten Abstimmungen wurden ${deviationCount} als Abweichung bewertet.`;
-  }
-
-  if (strongTopics.length > 0) {
-    assessment += ` Besonders programmtreu zeigt sich die Partei bei: ${strongTopics.join(", ")}.`;
-  }
-  if (weakTopics.length > 0) {
-    assessment += ` Deutliche Abweichungen gibt es bei: ${weakTopics.join(", ")}.`;
-  }
 
   const breadcrumbLabel = isAll ? "Alle Wahlperioden" : (parliament.state ?? parliament.name);
 
   return (
-    <div>
-      <Breadcrumb
-        items={[
-          { label: "Übersicht", href: `/?parliament=${params.parliament}` },
-          { label: breadcrumbLabel, href: `/?parliament=${params.parliament}` },
-          { label: party.name },
-        ]}
-      />
-
-      {/* Party Header */}
-      <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200">
-        <div
-          className="w-14 h-14 rounded-lg flex items-center justify-center text-white font-bold text-sm"
-          style={{ backgroundColor: PARTY_COLORS[party.name] ?? "#888" }}
-        >
-          {party.name}
-        </div>
-        <div className="flex-1">
-          <h1 className="text-xl font-bold text-gray-900">{party.name}</h1>
-          <p className="text-[13px] text-gray-400">
-            {party.full_name} · {parliament.legislature} · {memberCount} Abgeordnete
-          </p>
-        </div>
-        <div className="text-right">
-          <div className="text-3xl font-bold">
-            <ScoreText score={overallScoreValue} />
-          </div>
-          <div className="text-[11px] text-gray-400">Gesamtscore</div>
-        </div>
-      </div>
-
-      {/* Party Profile */}
-      {profile && (
-        <div className="bg-gray-50 rounded-lg p-5 mb-6">
-          <h3 className="text-[15px] font-semibold text-gray-900 mb-2">Über die Partei</h3>
-          <p className="text-[13px] text-gray-600 leading-relaxed mb-3">
-            {profile.summary}
-          </p>
-          <p className="text-[13px] text-gray-500 leading-relaxed">
-            <strong className="text-gray-700">Programmatische Schwerpunkte:</strong> {profile.positions}
-          </p>
-        </div>
-      )}
-
-      {/* Data-Based Assessment */}
-      <div className="border border-blue-100 bg-blue-50 rounded-lg p-5 mb-6">
-        <h3 className="text-[15px] font-semibold text-gray-900 mb-2">
-          Datenbasierte Einschätzung
-        </h3>
-        <p className="text-[13px] text-gray-600 leading-relaxed mb-3">
-          {assessment}
-        </p>
-        <div className="grid grid-cols-3 gap-3 mt-3">
-          <div className="text-center bg-white rounded px-3 py-2">
-            <div className="text-lg font-bold text-gray-900">{totalAnalyses}</div>
-            <div className="text-[10px] text-gray-400">Analysierte Abstimmungen</div>
-          </div>
-          <div className="text-center bg-white rounded px-3 py-2">
-            <div className="text-lg font-bold text-[#2e7d32]">{consistentCount}</div>
-            <div className="text-[10px] text-gray-400">Konsistent</div>
-          </div>
-          <div className="text-center bg-white rounded px-3 py-2">
-            <div className="text-lg font-bold text-[#c62828]">{deviationCount}</div>
-            <div className="text-[10px] text-gray-400">Abweichungen</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Topic Scores */}
-      <TopicScoreTable topics={topicScoresFormatted} />
-
-      {/* Most Reliable Members */}
-      {reliableMembers.length > 0 && (
-        <div className="mb-8">
-          <h3 className="text-[15px] font-semibold text-gray-900 mb-3">
-            Programmtreueste Abgeordnete
-          </h3>
-          <table className="w-full text-[13px]">
-            <thead>
-              <tr className="border-b-2 border-gray-200 text-left">
-                <th className="py-2 text-gray-500 font-medium">Name</th>
-                <th className="py-2 text-gray-500 font-medium text-right">Konsistent</th>
-                <th className="py-2 text-gray-500 font-medium text-right">Score</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reliableMembers.map((m) => (
-                <tr key={m.id} className="border-b border-gray-100">
-                  <td className="py-2">
-                    <Link href={`/abgeordnete/${m.id}`} className="hover:text-[#1a56b8]">
-                      {m.name}
-                    </Link>
-                    {m.constituency && (
-                      <span className="text-gray-400 text-[11px] ml-1">· {m.constituency}</span>
-                    )}
-                    {m.legislature && (
-                      <span className="text-gray-400 text-[11px] ml-1">· {m.legislature}</span>
-                    )}
-                  </td>
-                  <td className="py-2 text-right text-gray-500">
-                    {m.consistent} / {m.total}
-                  </td>
-                  <td className="py-2 text-right">
-                    <span className="font-semibold text-[#2e7d32]">{m.score}%</span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {/* Most Deviating Members */}
-      {deviatingMembers.length > 0 && (
-        <div className="mb-8">
-          <h3 className="text-[15px] font-semibold text-gray-900 mb-3">
-            Abgeordnete mit den meisten Abweichungen
-          </h3>
-          <table className="w-full text-[13px]">
-            <thead>
-              <tr className="border-b-2 border-gray-200 text-left">
-                <th className="py-2 text-gray-500 font-medium">Name</th>
-                <th className="py-2 text-gray-500 font-medium text-right">Abweichungen</th>
-                <th className="py-2 text-gray-500 font-medium text-right">Score</th>
-              </tr>
-            </thead>
-            <tbody>
-              {deviatingMembers.map((m) => (
-                <tr key={m.id} className="border-b border-gray-100">
-                  <td className="py-2">
-                    <Link href={`/abgeordnete/${m.id}`} className="hover:text-[#1a56b8]">
-                      {m.name}
-                    </Link>
-                    {m.constituency && (
-                      <span className="text-gray-400 text-[11px] ml-1">· {m.constituency}</span>
-                    )}
-                    {m.legislature && (
-                      <span className="text-gray-400 text-[11px] ml-1">· {m.legislature}</span>
-                    )}
-                  </td>
-                  <td className="py-2 text-right">
-                    <span className={`font-semibold ${
-                      m.deviations >= 5 ? "text-[#c62828]" : m.deviations >= 2 ? "text-[#e65100]" : "text-gray-500"
-                    }`}>
-                      {m.deviations}
-                    </span>
-                  </td>
-                  <td className="py-2 text-right">
-                    <span className="font-semibold text-gray-500">{m.score}%</span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      <div className="text-[11px] text-gray-400 mt-4 pt-4 border-t border-gray-100">
-        Hinweis: Die Einschätzung basiert ausschließlich auf dem automatisierten Abgleich von Wahlprogramm-Positionen
-        mit namentlichen Abstimmungen. Nicht alle parlamentarischen Aktivitäten werden durch Abstimmungen abgebildet.
-        Die Bewertung erhebt keinen Anspruch auf Vollständigkeit.
-      </div>
-    </div>
+    <ParteiClient
+      partyName={party.name}
+      partyFullName={party.full_name}
+      partyId={party.id}
+      parliamentId={params.parliament}
+      parliamentLegislature={parliament.legislature}
+      breadcrumbLabel={breadcrumbLabel}
+      isAll={isAll}
+      memberCount={memberCount}
+      overallScoreValue={overallScoreValue}
+      totalAnalyses={totalAnalyses}
+      consistentCount={consistentCount}
+      deviationCount={deviationCount}
+      topicScoresFormatted={topicScoresFormatted}
+      strongTopics={strongTopics}
+      weakTopics={weakTopics}
+      reliableMembers={reliableMembers}
+      deviatingMembers={deviatingMembers}
+      profile={profile}
+    />
   );
 }

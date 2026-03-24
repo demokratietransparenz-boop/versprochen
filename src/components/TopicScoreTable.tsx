@@ -1,4 +1,7 @@
+"use client";
+
 import { ScoreText } from "./TrafficLight";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface TopicScore {
   category: string;
@@ -6,10 +9,12 @@ interface TopicScore {
 }
 
 export function TopicScoreTable({ topics }: { topics: TopicScore[] }) {
+  const { t } = useLanguage();
+
   return (
     <div className="mb-6">
       <h3 className="text-[15px] font-semibold text-gray-900 mb-3">
-        Themenbereich-Scores
+        {t("topics.title")}
       </h3>
       <table className="w-full text-[13px]">
         <tbody>

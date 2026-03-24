@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface FilterOption {
   value: string;
@@ -20,6 +21,7 @@ export function VoteFilters({
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t } = useLanguage();
 
   const currentParliament = searchParams.get("parliament") ?? "";
   const currentCategory = searchParams.get("category") ?? "";
@@ -43,7 +45,7 @@ export function VoteFilters({
         onChange={(e) => updateFilter("parliament", e.target.value)}
         className="text-[13px] border border-gray-200 rounded px-3 py-1.5 bg-white text-gray-700"
       >
-        <option value="">Alle Wahlperioden</option>
+        <option value="">{t("filters.allPeriods")}</option>
         {parliaments.map((p) => (
           <option key={p.value} value={p.value}>
             {p.label}
@@ -56,7 +58,7 @@ export function VoteFilters({
         onChange={(e) => updateFilter("category", e.target.value)}
         className="text-[13px] border border-gray-200 rounded px-3 py-1.5 bg-white text-gray-700"
       >
-        <option value="">Alle Themenbereiche</option>
+        <option value="">{t("filters.allTopics")}</option>
         {categories.map((c) => (
           <option key={c.value} value={c.value}>
             {c.label}
@@ -69,7 +71,7 @@ export function VoteFilters({
         onChange={(e) => updateFilter("party", e.target.value)}
         className="text-[13px] border border-gray-200 rounded px-3 py-1.5 bg-white text-gray-700"
       >
-        <option value="">Alle Parteien</option>
+        <option value="">{t("filters.allParties")}</option>
         {parties.map((p) => (
           <option key={p.value} value={p.value}>
             {p.label}
@@ -82,7 +84,7 @@ export function VoteFilters({
         onChange={(e) => updateFilter("member", e.target.value)}
         className="text-[13px] border border-gray-200 rounded px-3 py-1.5 bg-white text-gray-700"
       >
-        <option value="">Alle Abgeordneten</option>
+        <option value="">{t("filters.allMembers")}</option>
         {members.map((m) => (
           <option key={m.value} value={m.value}>
             {m.label}
@@ -95,7 +97,7 @@ export function VoteFilters({
           href="/abstimmungen"
           className="text-[12px] text-[#1a56b8] hover:underline self-center"
         >
-          Filter zurücksetzen
+          {t("filters.reset")}
         </a>
       )}
     </div>

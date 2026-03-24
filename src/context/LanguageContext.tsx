@@ -244,6 +244,380 @@ const translations: Record<string, Record<Language, string>> = {
     "de-leicht": "Sicherheit:",
     en: "Confidence:",
   },
+
+  // Über das Projekt page
+  "about.title": {
+    de: "Über das Projekt",
+    "de-leicht": "Über das Projekt",
+    en: "About the Project",
+  },
+  "about.intro": {
+    de: "Versprochen? ist ein unabhängiges Civic-Tech-Projekt, das maximale Transparenz über das Abstimmungsverhalten deutscher Parteien und Abgeordneter schafft. Wir vergleichen automatisiert, ob Parteien im Bundestag und in den Landtagen so abstimmen, wie sie es in ihren Wahlprogrammen versprochen haben.",
+    "de-leicht": "Versprochen? ist ein unabhängiges Projekt. Wir prüfen, ob Parteien im Bundestag das tun, was sie vor der Wahl versprochen haben.",
+    en: "Versprochen? is an independent civic tech project that creates maximum transparency about the voting behavior of German parties and members of parliament. We automatically compare whether parties in the Bundestag and state parliaments vote as they promised in their election programs.",
+  },
+  "about.whyTitle": {
+    de: "Warum dieses Projekt?",
+    "de-leicht": "Warum gibt es dieses Projekt?",
+    en: "Why this project?",
+  },
+  "about.whyText": {
+    de: "In einer funktionierenden Demokratie müssen Wählerinnen und Wähler nachvollziehen können, ob ihre gewählten Vertreter die Versprechen aus dem Wahlkampf einhalten. Diese Information ist zwar öffentlich zugänglich — Abstimmungsergebnisse werden vom Bundestag veröffentlicht, Wahlprogramme stehen auf den Partei-Websites — aber der Abgleich zwischen beidem ist zeitaufwändig und komplex. Versprochen? automatisiert diesen Abgleich und macht ihn für alle zugänglich.",
+    "de-leicht": "Wähler sollen wissen, ob Politiker ihre Versprechen halten. Die Informationen sind zwar öffentlich, aber es ist schwer, alles zu vergleichen. Versprochen? macht das automatisch.",
+    en: "In a functioning democracy, voters must be able to verify whether their elected representatives keep their campaign promises. This information is publicly available — vote results are published by the Bundestag, election programs are on party websites — but comparing the two is time-consuming and complex. Versprochen? automates this comparison and makes it accessible to everyone.",
+  },
+  "about.howTitle": {
+    de: "Wie funktioniert es?",
+    "de-leicht": "Wie funktioniert es?",
+    en: "How does it work?",
+  },
+  "about.howText": {
+    de: "Nach jeder Sitzungswoche werden automatisch die neuesten Abstimmungen aus dem Bundestag und den Landtagen abgerufen. Eine KI (Claude von Anthropic) analysiert jede Abstimmung und prüft, ob sie sich auf eine Position im Wahlprogramm einer Partei bezieht. Wird eine Übereinstimmung gefunden, bewertet die KI, ob die Partei gemäß ihrem Wahlprogramm abgestimmt hat.",
+    "de-leicht": "Nach jeder Sitzungswoche holen wir die neuesten Abstimmungen. Ein Computer prüft, ob die Abstimmung etwas mit dem Wahlprogramm einer Partei zu tun hat. Wenn ja, bewertet der Computer, ob die Partei sich an ihr Versprechen gehalten hat.",
+    en: "After each session week, the latest votes from the Bundestag and state parliaments are automatically retrieved. An AI (Claude by Anthropic) analyzes each vote and checks whether it relates to a position in a party's election program. If a match is found, the AI evaluates whether the party voted in accordance with its election program.",
+  },
+  "about.sourcesTitle": {
+    de: "Datenquellen",
+    "de-leicht": "Woher kommen die Daten?",
+    en: "Data Sources",
+  },
+  "about.sourcesVotes": {
+    de: "Abstimmungsdaten:",
+    "de-leicht": "Abstimmungen:",
+    en: "Voting data:",
+  },
+  "about.sourcesVotesText": {
+    de: "abgeordnetenwatch.de API und Bundestag Open Data",
+    "de-leicht": "abgeordnetenwatch.de und Bundestag",
+    en: "abgeordnetenwatch.de API and Bundestag Open Data",
+  },
+  "about.sourcesPrograms": {
+    de: "Wahlprogramme:",
+    "de-leicht": "Wahlprogramme:",
+    en: "Election programs:",
+  },
+  "about.sourcesProgramsText": {
+    de: "Offizielle Wahlprogramme der Parteien + Wahl-O-Mat-Daten der Bundeszentrale für politische Bildung",
+    "de-leicht": "Offizielle Wahlprogramme der Parteien und Wahl-O-Mat",
+    en: "Official party election programs + Wahl-O-Mat data from the Federal Agency for Civic Education",
+  },
+  "about.neutralityTitle": {
+    de: "Neutralität",
+    "de-leicht": "Wir sind neutral",
+    en: "Neutrality",
+  },
+  "about.neutralityText": {
+    de: "Versprochen? ist parteipolitisch neutral. Alle Parteien werden mit identischen Methoden und Maßstäben bewertet. Die KI-Analyse verwendet für jede Partei die gleichen Prompts und Bewertungskriterien. Jede Bewertung wird mit einer Begründung und einem Konfidenzwert veröffentlicht, damit Nutzer die Einschätzung der KI selbst nachvollziehen können.",
+    "de-leicht": "Wir behandeln alle Parteien gleich. Der Computer benutzt für alle die gleichen Regeln. Jede Bewertung kann man nachprüfen.",
+    en: "Versprochen? is politically neutral. All parties are evaluated using identical methods and standards. The AI analysis uses the same prompts and evaluation criteria for every party. Each assessment is published with reasoning and a confidence score, so users can verify the AI's evaluation themselves.",
+  },
+  "about.openSourceTitle": {
+    de: "Open Source",
+    "de-leicht": "Offener Quellcode",
+    en: "Open Source",
+  },
+  "about.openSourceText": {
+    de: "Der gesamte Quellcode ist öffentlich auf",
+    "de-leicht": "Den ganzen Quellcode kann man auf",
+    en: "The entire source code is publicly available on",
+  },
+  "about.openSourceAfter": {
+    de: "verfügbar. Beiträge und Feedback sind willkommen.",
+    "de-leicht": "sehen. Mitmachen ist erwünscht.",
+    en: "available. Contributions and feedback are welcome.",
+  },
+
+  // Abstimmungen page
+  "votes.title": {
+    de: "Abstimmungen",
+    "de-leicht": "Abstimmungen",
+    en: "Votes",
+  },
+  "votes.showingVotesOf": {
+    de: "Zeige Abstimmungen von",
+    "de-leicht": "Abstimmungen von",
+    en: "Showing votes by",
+  },
+  "votes.found": {
+    de: "Abstimmungen gefunden",
+    "de-leicht": "Abstimmungen gefunden",
+    en: "votes found",
+  },
+  "votes.date": {
+    de: "Datum",
+    "de-leicht": "Datum",
+    en: "Date",
+  },
+  "votes.titleHeader": {
+    de: "Titel",
+    "de-leicht": "Titel",
+    en: "Title",
+  },
+  "votes.period": {
+    de: "Wahlperiode",
+    "de-leicht": "Wahlperiode",
+    en: "Legislative Period",
+  },
+  "votes.topic": {
+    de: "Thema",
+    "de-leicht": "Thema",
+    en: "Topic",
+  },
+  "votes.voteResult": {
+    de: "Stimme",
+    "de-leicht": "Stimme",
+    en: "Vote",
+  },
+  "votes.alignment": {
+    de: "Übereinstimmung",
+    "de-leicht": "Übereinstimmung",
+    en: "Alignment",
+  },
+
+  // VoteFilters
+  "filters.allPeriods": {
+    de: "Alle Wahlperioden",
+    "de-leicht": "Alle Wahlperioden",
+    en: "All Legislative Periods",
+  },
+  "filters.allTopics": {
+    de: "Alle Themenbereiche",
+    "de-leicht": "Alle Themen",
+    en: "All Topics",
+  },
+  "filters.allParties": {
+    de: "Alle Parteien",
+    "de-leicht": "Alle Parteien",
+    en: "All Parties",
+  },
+  "filters.allMembers": {
+    de: "Alle Abgeordneten",
+    "de-leicht": "Alle Abgeordneten",
+    en: "All Members",
+  },
+  "filters.reset": {
+    de: "Filter zurücksetzen",
+    "de-leicht": "Filter löschen",
+    en: "Reset filters",
+  },
+
+  // Party detail page
+  "party.members": {
+    de: "Abgeordnete",
+    "de-leicht": "Abgeordnete",
+    en: "Members",
+  },
+  "party.overallScore": {
+    de: "Gesamtscore",
+    "de-leicht": "Gesamt-Ergebnis",
+    en: "Overall Score",
+  },
+  "party.aboutParty": {
+    de: "Über die Partei",
+    "de-leicht": "Über die Partei",
+    en: "About the Party",
+  },
+  "party.programFocus": {
+    de: "Programmatische Schwerpunkte:",
+    "de-leicht": "Wichtige Themen:",
+    en: "Policy focus areas:",
+  },
+  "party.dataAssessment": {
+    de: "Datenbasierte Einschätzung",
+    "de-leicht": "Ergebnis aus den Daten",
+    en: "Data-Based Assessment",
+  },
+  "party.analyzedVotes": {
+    de: "Analysierte Abstimmungen",
+    "de-leicht": "Geprüfte Abstimmungen",
+    en: "Analyzed Votes",
+  },
+  "party.consistent": {
+    de: "Konsistent",
+    "de-leicht": "Übereinstimmend",
+    en: "Consistent",
+  },
+  "party.deviations": {
+    de: "Abweichungen",
+    "de-leicht": "Abweichungen",
+    en: "Deviations",
+  },
+  "party.reliableMembers": {
+    de: "Programmtreueste Abgeordnete",
+    "de-leicht": "Treueste Abgeordnete",
+    en: "Most Program-Loyal Members",
+  },
+  "party.memberName": {
+    de: "Name",
+    "de-leicht": "Name",
+    en: "Name",
+  },
+  "party.memberConsistent": {
+    de: "Konsistent",
+    "de-leicht": "Übereinstimmend",
+    en: "Consistent",
+  },
+  "party.memberScore": {
+    de: "Score",
+    "de-leicht": "Ergebnis",
+    en: "Score",
+  },
+  "party.deviatingMembers": {
+    de: "Abgeordnete mit den meisten Abweichungen",
+    "de-leicht": "Abgeordnete mit den meisten Abweichungen",
+    en: "Members with Most Deviations",
+  },
+  "party.memberDeviations": {
+    de: "Abweichungen",
+    "de-leicht": "Abweichungen",
+    en: "Deviations",
+  },
+  "party.disclaimer": {
+    de: "Hinweis: Die Einschätzung basiert ausschließlich auf dem automatisierten Abgleich von Wahlprogramm-Positionen mit namentlichen Abstimmungen. Nicht alle parlamentarischen Aktivitäten werden durch Abstimmungen abgebildet. Die Bewertung erhebt keinen Anspruch auf Vollständigkeit.",
+    "de-leicht": "Hinweis: Die Bewertung basiert nur auf Abstimmungen und Wahlprogrammen. Nicht alles, was Abgeordnete tun, wird durch Abstimmungen gezeigt.",
+    en: "Note: This assessment is based solely on the automated comparison of election program positions with recorded votes. Not all parliamentary activities are reflected in votes. The evaluation does not claim to be comprehensive.",
+  },
+  "party.highAlignment": {
+    de: "zeigt eine hohe Übereinstimmung zwischen Wahlprogramm und Abstimmungsverhalten.",
+    "de-leicht": "stimmt oft so ab, wie im Wahlprogramm versprochen.",
+    en: "shows a high alignment between election program and voting behavior.",
+  },
+  "party.mixedAlignment": {
+    de: "zeigt eine gemischte Bilanz.",
+    "de-leicht": "hält sich manchmal an das Wahlprogramm und manchmal nicht.",
+    en: "shows a mixed record.",
+  },
+  "party.lowAlignment": {
+    de: "weicht in vielen Fällen von ihrem Wahlprogramm ab.",
+    "de-leicht": "stimmt oft anders ab als im Wahlprogramm versprochen.",
+    en: "deviates from its election program in many cases.",
+  },
+  "party.inAnalyzedVotes": {
+    de: "analysierten Abstimmungen wurde",
+    "de-leicht": "geprüften Abstimmungen wurde",
+    en: "analyzed votes,",
+  },
+  "party.timesConsistent": {
+    de: "Mal im Einklang mit dem Wahlprogramm gestimmt.",
+    "de-leicht": "Mal wie versprochen abgestimmt.",
+    en: "times voted in line with the election program.",
+  },
+  "party.mixedDetail": {
+    de: "analysierten Abstimmungen stimmt das Verhalten in etwa der Hälfte der Fälle mit dem Wahlprogramm überein.",
+    "de-leicht": "geprüften Abstimmungen passt das Verhalten ungefähr zur Hälfte zum Wahlprogramm.",
+    en: "analyzed votes, the behavior matches the election program in roughly half the cases.",
+  },
+  "party.deviationsRated": {
+    de: "als Abweichung bewertet.",
+    "de-leicht": "als Abweichung bewertet.",
+    en: "rated as deviations.",
+  },
+  "party.strongTopics": {
+    de: "Besonders programmtreu zeigt sich die Partei bei:",
+    "de-leicht": "Besonders gut bei:",
+    en: "The party is particularly program-loyal in:",
+  },
+  "party.weakTopics": {
+    de: "Deutliche Abweichungen gibt es bei:",
+    "de-leicht": "Deutliche Abweichungen bei:",
+    en: "Significant deviations in:",
+  },
+  "party.allPeriods": {
+    de: "Alle Wahlperioden",
+    "de-leicht": "Alle Wahlperioden",
+    en: "All Legislative Periods",
+  },
+
+  // TopicScoreTable
+  "topics.title": {
+    de: "Themenbereich-Scores",
+    "de-leicht": "Ergebnisse nach Thema",
+    en: "Topic Scores",
+  },
+
+  // Member detail page
+  "member.constituency": {
+    de: "Wahlkreis",
+    "de-leicht": "Wahlkreis",
+    en: "Constituency",
+  },
+  "member.alignment": {
+    de: "Übereinstimmung",
+    "de-leicht": "Übereinstimmung",
+    en: "Alignment",
+  },
+  "member.topicBreakdown": {
+    de: "Abstimmungsverhalten nach Themenbereich",
+    "de-leicht": "Abstimmungen nach Thema",
+    en: "Voting Behavior by Topic",
+  },
+  "member.absentNote": {
+    de: "relevanten Abstimmungen war dieser Abgeordnete abwesend.",
+    "de-leicht": "Abstimmungen war dieser Abgeordnete nicht da.",
+    en: "relevant votes this member was absent.",
+  },
+  "member.absentOf": {
+    de: "Bei",
+    "de-leicht": "Bei",
+    en: "In",
+  },
+  "member.absentVon": {
+    de: "von",
+    "de-leicht": "von",
+    en: "of",
+  },
+  "member.consistent": {
+    de: "Konsistent",
+    "de-leicht": "Übereinstimmend",
+    en: "Consistent",
+  },
+  "member.deviation": {
+    de: "Abweichung",
+    "de-leicht": "Abweichung",
+    en: "Deviation",
+  },
+  "member.absent": {
+    de: "Abwesend",
+    "de-leicht": "Abwesend",
+    en: "Absent",
+  },
+  "member.votingBehavior": {
+    de: "Abstimmungsverhalten",
+    "de-leicht": "Abstimmungen",
+    en: "Voting Behavior",
+  },
+  "member.analyzedVotes": {
+    de: "analysierte Abstimmungen",
+    "de-leicht": "geprüfte Abstimmungen",
+    en: "analyzed votes",
+  },
+  "member.consistentPlural": {
+    de: "Konsistent",
+    "de-leicht": "Übereinstimmend",
+    en: "Consistent",
+  },
+  "member.deviationsPlural": {
+    de: "Abweichungen",
+    "de-leicht": "Abweichungen",
+    en: "Deviations",
+  },
+  "member.showAll": {
+    de: "Alle anzeigen",
+    "de-leicht": "Alle zeigen",
+    en: "Show all",
+  },
+  "member.noAnalyses": {
+    de: "Noch keine analysierten Abstimmungen für diesen Abgeordneten.",
+    "de-leicht": "Noch keine geprüften Abstimmungen für diesen Abgeordneten.",
+    en: "No analyzed votes available for this member yet.",
+  },
+
+  // Breadcrumb
+  "breadcrumb.overview": {
+    de: "Übersicht",
+    "de-leicht": "Übersicht",
+    en: "Overview",
+  },
 };
 
 // Simplified FAQ answers for Leichte Sprache and English

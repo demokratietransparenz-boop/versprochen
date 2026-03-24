@@ -1,0 +1,257 @@
+"use client";
+
+import { useLanguage } from "@/context/LanguageContext";
+import { Breadcrumb } from "@/components/Breadcrumb";
+import { TopicScoreTable } from "@/components/TopicScoreTable";
+import { ScoreText } from "@/components/TrafficLight";
+import { PARTY_COLORS } from "@/lib/constants";
+import Link from "next/link";
+
+interface MemberRow {
+  id: string;
+  name: string;
+  constituency: string | null;
+  legislature: string;
+  score: number;
+}
+
+interface ReliableMember extends MemberRow {
+  consistent: number;
+  total: number;
+}
+
+interface DeviatingMember extends MemberRow {
+  deviations: number;
+  consistent: number;
+  total: number;
+}
+
+interface TopicScore {
+  category: string;
+  score: number;
+}
+
+interface ParteiClientProps {
+  partyName: string;
+  partyFullName: string;
+  partyId: string;
+  parliamentId: string;
+  parliamentLegislature: string;
+  breadcrumbLabel: string;
+  isAll: boolean;
+  memberCount: number;
+  overallScoreValue: number;
+  totalAnalyses: number;
+  consistentCount: number;
+  deviationCount: number;
+  topicScoresFormatted: TopicScore[];
+  strongTopics: string[];
+  weakTopics: string[];
+  reliableMembers: ReliableMember[];
+  deviatingMembers: DeviatingMember[];
+  profile: { summary: string; positions: string } | null;
+}
+
+export function ParteiClient({
+  partyName,
+  partyFullName,
+  partyId,
+  parliamentId,
+  parliamentLegislature,
+  breadcrumbLabel,
+  isAll,
+  memberCount,
+  overallScoreValue,
+  totalAnalyses,
+  consistentCount,
+  deviationCount,
+  topicScoresFormatted,
+  strongTopics,
+  weakTopics,
+  reliableMembers,
+  deviatingMembers,
+  profile,
+}: ParteiClientProps) {
+  const { t, language } = useLanguage();
+
+  // Build assessment text based on data
+  let assessment = "";
+  if (overallScoreValue >= 70) {
+    assessment = `${partyName} ${t("party.highAlignment")} ${t("party.inAnalyzedVotes").replace("analysierten", String(totalAnalyses))} ${consistentCount} ${t("party.timesConsistent")}`;
+  } else if (overallScoreValue >= 50) {
+    assessment = `${partyName} ${t("party.mixedAlignment")} ${t("party.mixedDetail").replace("analysierten", String(totalAnalyses))}`;
+  } else {
+    assessment = `${partyName} ${t("party.lowAlignment")} ${totalAnalyses} ${t("party.inAnalyzedVotes")} ${deviationCount} ${t("party.deviationsRated")}`;
+  }
+
+  if (strongTopics.length > 0) {
+    assessment += ` ${t("party.strongTopics")} ${strongTopics.join(", ")}.`;
+  }
+  if (weakTopics.length > 0) {
+    assessment += ` ${t("party.weakTopics")} ${weakTopics.join(", ")}.`;
+  }
+
+  return (
+    <div>
+      <Breadcrumb
+        items={[
+          { label: t("breadcrumb.overview"), href: `/?parliament=${parliamentId}` },
+          { label: breadcrumbLabel, href: `/?parliament=${parliamentId}` },
+          { label: partyName },
+        ]}
+      />
+
+      {/* Party Header */}
+      <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200">
+        <div
+          className="w-14 h-14 rounded-lg flex items-center justify-center text-white font-bold text-sm"
+          style={{ backgroundColor: PARTY_COLORS[partyName] ?? "#888" }}
+        >
+          {partyName}
+        </div>
+        <div className="flex-1">
+          <h1 className="text-xl font-bold text-gray-900">{partyName}</h1>
+          <p className="text-[13px] text-gray-400">
+            {partyFullName} &middot; {parliamentLegislature} &middot; {memberCount} {t("party.members")}
+          </p>
+        </div>
+        <div className="text-right">
+          <div className="text-3xl font-bold">
+            <ScoreText score={overallScoreValue} />
+          </div>
+          <div className="text-[11px] text-gray-400">{t("party.overallScore")}</div>
+        </div>
+      </div>
+
+      {/* Party Profile */}
+      {profile && (
+        <div className="bg-gray-50 rounded-lg p-5 mb-6">
+          <h3 className="text-[15px] font-semibold text-gray-900 mb-2">{t("party.aboutParty")}</h3>
+          <p className="text-[13px] text-gray-600 leading-relaxed mb-3">
+            {profile.summary}
+          </p>
+          <p className="text-[13px] text-gray-500 leading-relaxed">
+            <strong className="text-gray-700">{t("party.programFocus")}</strong> {profile.positions}
+          </p>
+        </div>
+      )}
+
+      {/* Data-Based Assessment */}
+      <div className="border border-blue-100 bg-blue-50 rounded-lg p-5 mb-6">
+        <h3 className="text-[15px] font-semibold text-gray-900 mb-2">
+          {t("party.dataAssessment")}
+        </h3>
+        <p className="text-[13px] text-gray-600 leading-relaxed mb-3">
+          {assessment}
+        </p>
+        <div className="grid grid-cols-3 gap-3 mt-3">
+          <div className="text-center bg-white rounded px-3 py-2">
+            <div className="text-lg font-bold text-gray-900">{totalAnalyses}</div>
+            <div className="text-[10px] text-gray-400">{t("party.analyzedVotes")}</div>
+          </div>
+          <div className="text-center bg-white rounded px-3 py-2">
+            <div className="text-lg font-bold text-[#2e7d32]">{consistentCount}</div>
+            <div className="text-[10px] text-gray-400">{t("party.consistent")}</div>
+          </div>
+          <div className="text-center bg-white rounded px-3 py-2">
+            <div className="text-lg font-bold text-[#c62828]">{deviationCount}</div>
+            <div className="text-[10px] text-gray-400">{t("party.deviations")}</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Topic Scores */}
+      <TopicScoreTable topics={topicScoresFormatted} />
+
+      {/* Most Reliable Members */}
+      {reliableMembers.length > 0 && (
+        <div className="mb-8">
+          <h3 className="text-[15px] font-semibold text-gray-900 mb-3">
+            {t("party.reliableMembers")}
+          </h3>
+          <table className="w-full text-[13px]">
+            <thead>
+              <tr className="border-b-2 border-gray-200 text-left">
+                <th className="py-2 text-gray-500 font-medium">{t("party.memberName")}</th>
+                <th className="py-2 text-gray-500 font-medium text-right">{t("party.memberConsistent")}</th>
+                <th className="py-2 text-gray-500 font-medium text-right">{t("party.memberScore")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reliableMembers.map((m) => (
+                <tr key={m.id} className="border-b border-gray-100">
+                  <td className="py-2">
+                    <Link href={`/abgeordnete/${m.id}`} className="hover:text-[#1a56b8]">
+                      {m.name}
+                    </Link>
+                    {m.constituency && (
+                      <span className="text-gray-400 text-[11px] ml-1">&middot; {m.constituency}</span>
+                    )}
+                    {m.legislature && (
+                      <span className="text-gray-400 text-[11px] ml-1">&middot; {m.legislature}</span>
+                    )}
+                  </td>
+                  <td className="py-2 text-right text-gray-500">
+                    {m.consistent} / {m.total}
+                  </td>
+                  <td className="py-2 text-right">
+                    <span className="font-semibold text-[#2e7d32]">{m.score}%</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* Most Deviating Members */}
+      {deviatingMembers.length > 0 && (
+        <div className="mb-8">
+          <h3 className="text-[15px] font-semibold text-gray-900 mb-3">
+            {t("party.deviatingMembers")}
+          </h3>
+          <table className="w-full text-[13px]">
+            <thead>
+              <tr className="border-b-2 border-gray-200 text-left">
+                <th className="py-2 text-gray-500 font-medium">{t("party.memberName")}</th>
+                <th className="py-2 text-gray-500 font-medium text-right">{t("party.memberDeviations")}</th>
+                <th className="py-2 text-gray-500 font-medium text-right">{t("party.memberScore")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {deviatingMembers.map((m) => (
+                <tr key={m.id} className="border-b border-gray-100">
+                  <td className="py-2">
+                    <Link href={`/abgeordnete/${m.id}`} className="hover:text-[#1a56b8]">
+                      {m.name}
+                    </Link>
+                    {m.constituency && (
+                      <span className="text-gray-400 text-[11px] ml-1">&middot; {m.constituency}</span>
+                    )}
+                    {m.legislature && (
+                      <span className="text-gray-400 text-[11px] ml-1">&middot; {m.legislature}</span>
+                    )}
+                  </td>
+                  <td className="py-2 text-right">
+                    <span className={`font-semibold ${
+                      m.deviations >= 5 ? "text-[#c62828]" : m.deviations >= 2 ? "text-[#e65100]" : "text-gray-500"
+                    }`}>
+                      {m.deviations}
+                    </span>
+                  </td>
+                  <td className="py-2 text-right">
+                    <span className="font-semibold text-gray-500">{m.score}%</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <div className="text-[11px] text-gray-400 mt-4 pt-4 border-t border-gray-100">
+        {t("party.disclaimer")}
+      </div>
+    </div>
+  );
+}
